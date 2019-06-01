@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Озхан Мамедов](https://up.htmlacademy.ru/javascript/17/user/910865).
-* Наставник: `Неизвестно`.
+* Наставник: [Юрий Катков](https://htmlacademy.ru/profile/id473867).
 
 ---
 
