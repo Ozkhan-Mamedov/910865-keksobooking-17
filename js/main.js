@@ -33,7 +33,6 @@ var makeAdObjects = function () {
   for (var i = 0; i < 8; i++) {
     objects[i] = {
       'author': {
-        //avatar: 'img/avatars/user0' + String(i + 1) + '.png'
         avatar: images[i] + '.png'
       },
       'offer': {
