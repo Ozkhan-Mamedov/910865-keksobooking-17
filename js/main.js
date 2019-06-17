@@ -128,8 +128,8 @@ mainPin.addEventListener('click', onMainPinClick);
 
 var getCoords = function (expression) {
   var coords = expression.split(';');
-  var coordX = parseInt(coords[0].replace(/\D+/g, ''));
-  var coordY = parseInt(coords[1].replace(/\D+/g, ''));
+  var coordX = parseInt(coords[0].replace(/\D+/g, ''), 10);
+  var coordY = parseInt(coords[1].replace(/\D+/g, ''), 10);
   var result = [coordX, ' ' + coordY];
 
   return result;
