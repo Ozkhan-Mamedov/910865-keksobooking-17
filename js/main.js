@@ -1,13 +1,6 @@
 'use strict';
 
 /**
- * Функция первоначальной настройки
- */
-var setup = function () {
-  document.querySelector('.map').classList.remove('map--faded');
-};
-
-/**
  * Функция генерирования случайного числа
  * @param {number} min
  * @param {number} max
@@ -86,12 +79,65 @@ var renderElements = function (elements, block) {
   block.appendChild(nodes);
 };
 
+var fieldsets = document.querySelectorAll('.ad-form__element');
+var filters = document.querySelectorAll('.map__filters');
 
-setup();
+var disableMap = function () {
+  document.querySelector('.ad-form-header').setAttribute('disabled', 'disabled');
+  document.querySelector('.map').classList.add('map--faded');
+  document.querySelector('.ad-form').classList.add('ad-form--disabled');
 
+  for (var i = 0; i < fieldsets.length; i++) {
+    fieldsets[i].setAttribute('disabled', 'disabled');
+  }
+
+  for (var i = 0; i < filters.length; i++) {
+    filters[i].setAttribute('disabled', 'disabled');
+  }
+};
+
+var enableMap = function () {
+  document.querySelector('.ad-form-header').removeAttribute('disabled', null);
+  document.querySelector('.map').classList.remove('map--faded');
+  document.querySelector('.ad-form').classList.remove('ad-form--disabled');
+
+  for (var i = 0; i < fieldsets.length; i++) {
+    fieldsets[i].removeAttribute('disabled', null);
+  }
+
+  for (var i = 0; i < filters.length; i++) {
+    filters[i].removeAttribute('disabled', null)
+  }
+};
+
+disableMap();
+
+var mainPin = document.querySelector('.map__pin--main');
 var mapPins = document.querySelector('.map__pins');
 var template = document.querySelector('#pin').content.querySelector('.map__pin');
 var data = makeAdObjects();
 var pins = createDomElements(data, template);
 
-renderElements(pins, mapPins);
+var onMainPinClick = function () {
+  enableMap();
+  renderElements(pins, mapPins);
+  mainPin.removeEventListener('click', onMainPinClick);
+};
+
+mainPin.addEventListener('click', onMainPinClick);
+
+var getCoords = function (expression) {
+  var coords = expression.split(';');
+  var coord_x = parseInt(coords[0].replace(/\D+/g,""));
+  var coord_y = parseInt(coords[1].replace(/\D+/g,""));
+  var result = [coord_x, ' ' + coord_y];
+
+  return result;
+};
+
+mainPin.addEventListener('mouseup', function () {
+  var textarea = document.getElementById('address');
+  var pinCoordsStyle = mainPin.getAttribute('style');
+  var pinCoords = getCoords(pinCoordsStyle);
+  textarea.setAttribute('value', pinCoords);
+});
