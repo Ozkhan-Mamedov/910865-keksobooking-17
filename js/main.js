@@ -91,8 +91,8 @@ var disableMap = function () {
     fieldsets[i].setAttribute('disabled', 'disabled');
   }
 
-  for (var i = 0; i < filters.length; i++) {
-    filters[i].setAttribute('disabled', 'disabled');
+  for (var j = 0; j < filters.length; j++) {
+    filters[j].setAttribute('disabled', 'disabled');
   }
 };
 
@@ -105,8 +105,8 @@ var enableMap = function () {
     fieldsets[i].removeAttribute('disabled', null);
   }
 
-  for (var i = 0; i < filters.length; i++) {
-    filters[i].removeAttribute('disabled', null)
+  for (var j = 0; j < filters.length; j++) {
+    filters[j].removeAttribute('disabled', null);
   }
 };
 
@@ -128,9 +128,9 @@ mainPin.addEventListener('click', onMainPinClick);
 
 var getCoords = function (expression) {
   var coords = expression.split(';');
-  var coord_x = parseInt(coords[0].replace(/\D+/g,""));
-  var coord_y = parseInt(coords[1].replace(/\D+/g,""));
-  var result = [coord_x, ' ' + coord_y];
+  var coordX = parseInt(coords[0].replace(/\D+/g, ''));
+  var coordY = parseInt(coords[1].replace(/\D+/g, ''));
+  var result = [coordX, ' ' + coordY];
 
   return result;
 };
