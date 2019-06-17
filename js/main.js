@@ -82,6 +82,9 @@ var renderElements = function (elements, block) {
 var fieldsets = document.querySelectorAll('.ad-form__element');
 var filters = document.querySelectorAll('.map__filters');
 
+/**
+ * Функция деактивации страницы
+ */
 var disableMap = function () {
   document.querySelector('.ad-form-header').setAttribute('disabled', 'disabled');
   document.querySelector('.map').classList.add('map--faded');
@@ -96,6 +99,9 @@ var disableMap = function () {
   }
 };
 
+/**
+ * Функция активации страницы
+ */
 var enableMap = function () {
   document.querySelector('.ad-form-header').removeAttribute('disabled', null);
   document.querySelector('.map').classList.remove('map--faded');
@@ -110,22 +116,20 @@ var enableMap = function () {
   }
 };
 
-disableMap();
-
-var mainPin = document.querySelector('.map__pin--main');
-var mapPins = document.querySelector('.map__pins');
-var template = document.querySelector('#pin').content.querySelector('.map__pin');
-var data = makeAdObjects();
-var pins = createDomElements(data, template);
-
+/**
+ * Функция обработчик события клика по главному пину
+ */
 var onMainPinClick = function () {
   enableMap();
   renderElements(pins, mapPins);
   mainPin.removeEventListener('click', onMainPinClick);
 };
 
-mainPin.addEventListener('click', onMainPinClick);
-
+/**
+ * Функция извлечения координат из строки
+ * @param {String} expression подаваемая строка
+ * @return {Object[]} массив с координатами
+ */
 var getCoords = function (expression) {
   var coords = expression.split(';');
   var coordX = parseInt(coords[0].replace(/\D+/g, ''), 10);
@@ -135,6 +139,15 @@ var getCoords = function (expression) {
   return result;
 };
 
+disableMap();
+
+var mainPin = document.querySelector('.map__pin--main');
+var mapPins = document.querySelector('.map__pins');
+var template = document.querySelector('#pin').content.querySelector('.map__pin');
+var data = makeAdObjects();
+var pins = createDomElements(data, template);
+
+mainPin.addEventListener('click', onMainPinClick);
 mainPin.addEventListener('mouseup', function () {
   var textarea = document.getElementById('address');
   var pinCoordsStyle = mainPin.getAttribute('style');
