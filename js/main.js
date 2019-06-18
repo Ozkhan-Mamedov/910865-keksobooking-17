@@ -215,7 +215,6 @@ mainPin.addEventListener('mouseup', function () {
 });
 
 var livingTypeInput = document.querySelector('select[name=type]');
-var livings = livingTypeInput.querySelectorAll('option');
 var priceInput = document.querySelector('input[name=price]');
 
 livingTypeInput.addEventListener('change', function () {
