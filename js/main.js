@@ -1,5 +1,13 @@
 'use strict';
 
+var INITIAL_MAIN_PIN_COORDS = [570, ' ' + 375];
+var mainPin = document.querySelector('.map__pin--main');
+var mapPins = document.querySelector('.map__pins');
+var template = document.querySelector('#pin').content.querySelector('.map__pin');
+var addressInput = document.getElementById('address');
+var fieldsets = document.querySelectorAll('.ad-form__element');
+var filters = document.querySelectorAll('.map__filters');
+
 /**
  * Функция генерирования случайного числа
  * @param {number} min
@@ -79,78 +87,108 @@ var renderElements = function (elements, block) {
   block.appendChild(nodes);
 };
 
-var fieldsets = document.querySelectorAll('.ad-form__element');
-var filters = document.querySelectorAll('.map__filters');
+/**
+ * Функция копирования элементов из псевдомассива в массив
+ * @param {Object[]} arr псевдомассив
+ * @return {Object[]} массив
+ */
+var copyElements = function (arr) {
+  var arrModified = [];
+  for (var i = 0; i < arr.length; i++) {
+    arrModified[i]=arr[i];
+  }
+
+  return arrModified;
+};
+
+/**
+ * Функция деактивации элементов
+ * @param {Object[]} elements массив деактивируемых элементов
+ * @return {Object[]}
+ */
+var disableElements = function (elements) {
+  for (var i = 0; i < elements.length; i++) {
+    elements[i].setAttribute('disabled', 'disabled');
+  }
+};
+
+/**
+ * Функция активации элементов
+ * @param {Object[]} elements массив активируемых элементов
+ * @return {Object[]}
+ */
+var enableElements = function (elements) {
+  for (var i = 0; i < elements.length; i++) {
+    elements[i].removeAttribute('disabled', 'disabled');
+  }
+}
 
 /**
  * Функция деактивации страницы
  */
-var disableMap = function () {
-  document.querySelector('.ad-form-header').setAttribute('disabled', 'disabled');
+var disablePage = function () {
   document.querySelector('.map').classList.add('map--faded');
   document.querySelector('.ad-form').classList.add('ad-form--disabled');
 
-  for (var i = 0; i < fieldsets.length; i++) {
-    fieldsets[i].setAttribute('disabled', 'disabled');
-  }
-
-  for (var j = 0; j < filters.length; j++) {
-    filters[j].setAttribute('disabled', 'disabled');
-  }
+  addressInput.setAttribute('value', INITIAL_MAIN_PIN_COORDS);
+  disableElements(fieldsetsModified);
+  disableElements(filters);
 };
 
 /**
  * Функция активации страницы
  */
-var enableMap = function () {
-  document.querySelector('.ad-form-header').removeAttribute('disabled', null);
+var enablePage = function () {
   document.querySelector('.map').classList.remove('map--faded');
   document.querySelector('.ad-form').classList.remove('ad-form--disabled');
 
-  for (var i = 0; i < fieldsets.length; i++) {
-    fieldsets[i].removeAttribute('disabled', null);
-  }
-
-  for (var j = 0; j < filters.length; j++) {
-    filters[j].removeAttribute('disabled', null);
-  }
+  enableElements(fieldsetsModified);
+  enableElements(filters);
 };
 
 /**
  * Функция обработчик события клика по главному пину
  */
 var onMainPinClick = function () {
-  enableMap();
+  enablePage();
   renderElements(pins, mapPins);
   mainPin.removeEventListener('click', onMainPinClick);
 };
 
 /**
- * Функция извлечения координат из строки
+ * Функция извлекает число из строки
+ * @param {Object[]} data массив строк с координатами
+ * @return {Object[]} обработанный массив
+ */
+var extractNumber = function (data) {
+  var numberX = parseInt(data[0].replace(/\D+/g, ''), 10);
+  var numberY = parseInt(data[1].replace(/\D+/g, ''), 10);
+
+  return [numberX, ' ' + numberY];
+};
+
+/**
+ * Функция получения координат
  * @param {String} expression подаваемая строка
  * @return {Object[]} массив с координатами
  */
 var getCoords = function (expression) {
   var coords = expression.split(';');
-  var coordX = parseInt(coords[0].replace(/\D+/g, ''), 10);
-  var coordY = parseInt(coords[1].replace(/\D+/g, ''), 10);
-  var result = [coordX, ' ' + coordY];
 
-  return result;
+  return extractNumber(coords);
 };
 
-disableMap();
+var fieldsetsModified = copyElements(fieldsets);
+fieldsetsModified.push(document.querySelector('.ad-form-header'));
 
-var mainPin = document.querySelector('.map__pin--main');
-var mapPins = document.querySelector('.map__pins');
-var template = document.querySelector('#pin').content.querySelector('.map__pin');
+disablePage();
+
 var data = makeAdObjects();
 var pins = createDomElements(data, template);
 
 mainPin.addEventListener('click', onMainPinClick);
 mainPin.addEventListener('mouseup', function () {
-  var textarea = document.getElementById('address');
   var pinCoordsStyle = mainPin.getAttribute('style');
   var pinCoords = getCoords(pinCoordsStyle);
-  textarea.setAttribute('value', pinCoords);
+  addressInput.setAttribute('value', pinCoords);
 });
