@@ -3,7 +3,6 @@
 var INITIAL_MAIN_PIN_COORDS = [570, ' ' + 375];
 var mainPin = document.querySelector('.map__pin--main');
 var mapPins = document.querySelector('.map__pins');
-var template = document.querySelector('#pin').content.querySelector('.map__pin');
 var addressInput = document.getElementById('address');
 var fieldsets = document.querySelectorAll('.ad-form__element');
 var filters = document.querySelectorAll('.map__filters');
@@ -95,7 +94,7 @@ var renderElements = function (elements, block) {
 var copyElements = function (arr) {
   var arrModified = [];
   for (var i = 0; i < arr.length; i++) {
-    arrModified[i]=arr[i];
+    arrModified[i] = arr[i];
   }
 
   return arrModified;
@@ -104,7 +103,6 @@ var copyElements = function (arr) {
 /**
  * Функция деактивации элементов
  * @param {Object[]} elements массив деактивируемых элементов
- * @return {Object[]}
  */
 var disableElements = function (elements) {
   for (var i = 0; i < elements.length; i++) {
@@ -115,13 +113,12 @@ var disableElements = function (elements) {
 /**
  * Функция активации элементов
  * @param {Object[]} elements массив активируемых элементов
- * @return {Object[]}
  */
 var enableElements = function (elements) {
   for (var i = 0; i < elements.length; i++) {
     elements[i].removeAttribute('disabled', 'disabled');
   }
-}
+};
 
 /**
  * Функция деактивации страницы
@@ -184,6 +181,7 @@ fieldsetsModified.push(document.querySelector('.ad-form-header'));
 disablePage();
 
 var data = makeAdObjects();
+var template = document.querySelector('#pin').content.querySelector('.map__pin');
 var pins = createDomElements(data, template);
 
 mainPin.addEventListener('click', onMainPinClick);
