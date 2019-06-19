@@ -1,10 +1,12 @@
 'use strict';
 
 var INITIAL_MAIN_PIN_COORDS = [570, ' ' + 375];
-var PRICE_BUNGALO = 0;
-var PRICE_FLAT = 1000;
-var PRICE_HOUSE = 5000;
-var PRICE_PALACE = 10000;
+var accomodationPrice = {
+  'bungalo': 0,
+  'flat': 1000,
+  'house': 5000,
+  'palace': 10000
+};
 var mainPin = document.querySelector('.map__pin--main');
 var mapPins = document.querySelector('.map__pins');
 var addressInput = document.getElementById('address');
@@ -193,9 +195,9 @@ var setPriceAttributes = function (value) {
  * @param {Object} dateInput время относительно которого синхронизируемся
  * @param {Object} targetDateInput синхронизируемое время
  */
-var synchronizeDateInput = function (dateInput, targetDateInput) {
-  var currentValue = dateInput.value;
-  targetDateInput.value = currentValue;
+var synchronizeTimeInput = function (timeInput, targetTimeInput) {
+  var currentValue = timeInput.value;
+  targetTimeInput.value = currentValue;
 };
 
 var fieldsetsModified = copyElements(fieldsets);
@@ -218,30 +220,31 @@ var livingTypeInput = document.querySelector('select[name=type]');
 var priceInput = document.querySelector('input[name=price]');
 
 livingTypeInput.addEventListener('change', function () {
+  switch(livingTypeInput.value) {
+    case 'bungalo':
+      setPriceAttributes(accomodationPrice['bungalo']);
+      break;
 
-  if (livingTypeInput.value === 'bungalo') {
-    setPriceAttributes(PRICE_BUNGALO);
-  }
-  if (livingTypeInput.value === 'flat') {
-    setPriceAttributes(PRICE_FLAT);
-  }
+    case 'flat':
+      setPriceAttributes(accomodationPrice['flat']);
+      break;
 
-  if (livingTypeInput.value === 'house') {
-    setPriceAttributes(PRICE_HOUSE);
-  }
+    case 'house':
+      setPriceAttributes(accomodationPrice['house']);
+      break;
 
-  if (livingTypeInput.value === 'palace') {
-    setPriceAttributes(PRICE_PALACE);
+    case 'palace':
+      setPriceAttributes(accomodationPrice['palace']);
+      break;
   }
-
 });
 
-var arrivalTimeInput = document.getElementById('timein');
-var departureTimeInput = document.getElementById('timeout');
+var arrivalTimeInput = document.querySelector('select[id=timein]');
+var departureTimeInput = document.querySelector('select[id=timeout]');
 
 arrivalTimeInput.addEventListener('change', function () {
-  synchronizeDateInput(arrivalTimeInput, departureTimeInput);
+  synchronizeTimeInput(arrivalTimeInput, departureTimeInput);
 });
 departureTimeInput.addEventListener('change', function () {
-  synchronizeDateInput(departureTimeInput, arrivalTimeInput);
+  synchronizeTimeInput(departureTimeInput, arrivalTimeInput);
 });
