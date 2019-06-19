@@ -193,8 +193,8 @@ var setPriceAttributes = function (value) {
 
 /**
  * Функция сихронизации времени
- * @param {Object} dateInput время относительно которого синхронизируемся
- * @param {Object} targetDateInput синхронизируемое время
+ * @param {Object} timeInput время относительно которого синхронизируемся
+ * @param {Object} targetTimeInput синхронизируемое время
  */
 var synchronizeTimeInput = function (timeInput, targetTimeInput) {
   var currentValue = timeInput.value;
@@ -221,7 +221,7 @@ var livingTypeInput = document.querySelector('select[name=type]');
 var priceInput = document.querySelector('input[name=price]');
 
 livingTypeInput.addEventListener('change', function () {
-  switch(livingTypeInput.value) {
+  switch (livingTypeInput.value) {
     case 'bungalo':
       setPriceAttributes(accomodationPrice['bungalo']);
       break;
