@@ -99,6 +99,7 @@ var renderElements = function (elements, block) {
  */
 var copyElements = function (arr) {
   var arrModified = [];
+
   for (var i = 0; i < arr.length; i++) {
     arrModified[i] = arr[i];
   }
