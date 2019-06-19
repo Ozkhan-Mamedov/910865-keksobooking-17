@@ -1,6 +1,12 @@
 'use strict';
 
 var INITIAL_MAIN_PIN_COORDS = [570, ' ' + 375];
+var accomodationPrice = {
+  'bungalo': 0,
+  'flat': 1000,
+  'house': 5000,
+  'palace': 10000
+};
 var mainPin = document.querySelector('.map__pin--main');
 var mapPins = document.querySelector('.map__pins');
 var addressInput = document.getElementById('address');
@@ -93,6 +99,7 @@ var renderElements = function (elements, block) {
  */
 var copyElements = function (arr) {
   var arrModified = [];
+
   for (var i = 0; i < arr.length; i++) {
     arrModified[i] = arr[i];
   }
@@ -116,7 +123,7 @@ var disableElements = function (elements) {
  */
 var enableElements = function (elements) {
   for (var i = 0; i < elements.length; i++) {
-    elements[i].removeAttribute('disabled', 'disabled');
+    elements[i].removeAttribute('disabled');
   }
 };
 
@@ -175,6 +182,25 @@ var getCoords = function (expression) {
   return extractNumber(coords);
 };
 
+/**
+ * Функция подстановки атрибутов в элемены
+ * @param {Number} value значение атрибутов
+ */
+var setPriceAttributes = function (value) {
+  priceInput.setAttribute('min', value);
+  priceInput.setAttribute('placeholder', value);
+};
+
+/**
+ * Функция сихронизации времени
+ * @param {Object} timeInput время относительно которого синхронизируемся
+ * @param {Object} targetTimeInput синхронизируемое время
+ */
+var synchronizeTimeInput = function (timeInput, targetTimeInput) {
+  var currentValue = timeInput.value;
+  targetTimeInput.value = currentValue;
+};
+
 var fieldsetsModified = copyElements(fieldsets);
 fieldsetsModified.push(document.querySelector('.ad-form-header'));
 
@@ -189,4 +215,37 @@ mainPin.addEventListener('mouseup', function () {
   var pinCoordsStyle = mainPin.getAttribute('style');
   var pinCoords = getCoords(pinCoordsStyle);
   addressInput.setAttribute('value', pinCoords);
+});
+
+var livingTypeInput = document.querySelector('select[name=type]');
+var priceInput = document.querySelector('input[name=price]');
+
+livingTypeInput.addEventListener('change', function () {
+  switch (livingTypeInput.value) {
+    case 'bungalo':
+      setPriceAttributes(accomodationPrice['bungalo']);
+      break;
+
+    case 'flat':
+      setPriceAttributes(accomodationPrice['flat']);
+      break;
+
+    case 'house':
+      setPriceAttributes(accomodationPrice['house']);
+      break;
+
+    case 'palace':
+      setPriceAttributes(accomodationPrice['palace']);
+      break;
+  }
+});
+
+var arrivalTimeInput = document.querySelector('select[id=timein]');
+var departureTimeInput = document.querySelector('select[id=timeout]');
+
+arrivalTimeInput.addEventListener('change', function () {
+  synchronizeTimeInput(arrivalTimeInput, departureTimeInput);
+});
+departureTimeInput.addEventListener('change', function () {
+  synchronizeTimeInput(departureTimeInput, arrivalTimeInput);
 });
