@@ -7,6 +7,12 @@ var accomodationPrice = {
   'house': 5000,
   'palace': 10000
 };
+var MAIN_PIN_WIDTH = 65;
+var MAIN_PIN_HEIGHT = 65;
+var MIN_NUMBER_X = 0;
+var MAX_NUMBER_Y = 630;
+var MIN_NUMBER_Y = 130;
+var MAX_NUMBER_X = document.querySelector('.map__pins').clientWidth;
 var mainPin = document.querySelector('.map__pin--main');
 var mapPins = document.querySelector('.map__pins');
 var addressInput = document.getElementById('address');
@@ -28,10 +34,6 @@ var getRandomNumber = function (min, max) {
  * @return {Object[]} результат генерации - массив объектов
  */
 var makeAdObjects = function () {
-  var MIN_NUMBER_X = 0;
-  var MAX_NUMBER_Y = 630;
-  var MIN_NUMBER_Y = 130;
-  var MAX_NUMBER_X = document.querySelector('.map__pins').clientWidth;
   var objects = [];
   var livings = ['palace', 'flat', 'house', 'bungalo'];
   var images = ['img/avatars/user01', 'img/avatars/user02', 'img/avatars/user03', 'img/avatars/user04', 'img/avatars/user05', 'img/avatars/user06', 'img/avatars/user07', 'img/avatars/user08'];
@@ -151,15 +153,6 @@ var enablePage = function () {
 };
 
 /**
- * Функция обработчик события клика по главному пину
- */
-var onMainPinClick = function () {
-  enablePage();
-  renderElements(pins, mapPins);
-  mainPin.removeEventListener('click', onMainPinClick);
-};
-
-/**
  * Функция извлекает число из строки
  * @param {Object[]} data массив строк с координатами
  * @return {Object[]} обработанный массив
@@ -196,7 +189,7 @@ var setPriceAttributes = function (value) {
  * @param {Object} timeInput время относительно которого синхронизируемся
  * @param {Object} targetTimeInput синхронизируемое время
  */
-var synchronizeTimeInput = function (timeInput, targetTimeInput) {
+var synchronizeTimeInputs = function (timeInput, targetTimeInput) {
   var currentValue = timeInput.value;
   targetTimeInput.value = currentValue;
 };
@@ -210,7 +203,6 @@ var data = makeAdObjects();
 var template = document.querySelector('#pin').content.querySelector('.map__pin');
 var pins = createDomElements(data, template);
 
-mainPin.addEventListener('click', onMainPinClick);
 mainPin.addEventListener('mouseup', function () {
   var pinCoordsStyle = mainPin.getAttribute('style');
   var pinCoords = getCoords(pinCoordsStyle);
@@ -244,8 +236,75 @@ var arrivalTimeInput = document.querySelector('select[id=timein]');
 var departureTimeInput = document.querySelector('select[id=timeout]');
 
 arrivalTimeInput.addEventListener('change', function () {
-  synchronizeTimeInput(arrivalTimeInput, departureTimeInput);
+  synchronizeTimeInputs(arrivalTimeInput, departureTimeInput);
 });
 departureTimeInput.addEventListener('change', function () {
-  synchronizeTimeInput(departureTimeInput, arrivalTimeInput);
+  synchronizeTimeInputs(departureTimeInput, arrivalTimeInput);
+});
+
+mainPin.addEventListener('mousedown', function (evt) {
+  enablePage();
+  renderElements(pins, mapPins);
+
+  var startCoords = {
+    x: evt.clientX,
+    y: evt.clientY
+  };
+
+  /**
+   * Обработчик перемещения мыши
+   * @param {Object} moveEvt объект события
+   */
+  var onMouseMove = function (moveEvt) {
+    var shift = {
+      x: startCoords.x - moveEvt.clientX,
+      y: startCoords.y - moveEvt.clientY
+    };
+
+    startCoords = {
+      x: moveEvt.clientX,
+      y: moveEvt.clientY
+    };
+
+    mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
+    mainPin.style.left = (mainPin.offsetLeft - shift.x) + 'px';
+    if (mainPin.offsetLeft < MIN_NUMBER_X) {
+      mainPin.style.left = MIN_NUMBER_X + 'px';
+    }
+    if (mainPin.offsetLeft > MAX_NUMBER_X - MAIN_PIN_WIDTH) {
+      mainPin.style.left = MAX_NUMBER_X - MAIN_PIN_WIDTH + 'px';
+    }
+    if (mainPin.offsetTop < MIN_NUMBER_Y - MAIN_PIN_HEIGHT) {
+      mainPin.style.top = MIN_NUMBER_Y - MAIN_PIN_HEIGHT + 'px';
+    }
+    if (mainPin.offsetTop > MAX_NUMBER_Y) {
+      mainPin.style.top = MAX_NUMBER_Y + 'px';
+    }
+    /*
+    if (mainPin.offsetLeft < MIN_NUMBER_X - Math.round(MAIN_PIN_WIDTH / 2)) { //
+      mainPin.style.left = MIN_NUMBER_X - MAIN_PIN_WIDTH / 2 + 'px';
+    }
+    if (mainPin.offsetLeft > MAX_NUMBER_X - Math.round(MAIN_PIN_WIDTH / 2)) {
+      mainPin.style.left = MAX_NUMBER_X - Math.round(MAIN_PIN_WIDTH / 2) + 'px';
+    }
+    if (mainPin.offsetTop < MIN_NUMBER_Y - MAIN_PIN_HEIGHT) {
+      mainPin.style.top = MIN_NUMBER_Y - MAIN_PIN_HEIGHT + 'px';
+    }
+    if (mainPin.offsetTop > MAX_NUMBER_Y) {
+      mainPin.style.top = MAX_NUMBER_Y + 'px';
+    }
+    */
+  };
+
+  /**
+   * Обработчик события при отпускании кнопки мыши
+   * @param {Object} upEvt объект события
+   */
+  var onMouseUp = function (upEvt) {
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+  };
+
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
 });
