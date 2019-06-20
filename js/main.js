@@ -300,7 +300,7 @@ mainPin.addEventListener('mousedown', function (evt) {
    * Обработчик события при отпускании кнопки мыши
    * @param {Object} upEvt объект события
    */
-  var onMouseUp = function (upEvt) {
+  var onMouseUp = function () {
     document.removeEventListener('mousemove', onMouseMove);
     document.removeEventListener('mouseup', onMouseUp);
   };
