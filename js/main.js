@@ -158,8 +158,8 @@ var enablePage = function () {
  * @return {Object[]} обработанный массив
  */
 var extractNumber = function (data) {
-  var numberX = parseInt(data[0].replace(/\D+/g, ''), 10);
-  var numberY = parseInt(data[1].replace(/\D+/g, ''), 10);
+  var numberX = parseFloat(data[0].substr(6));
+  var numberY = parseFloat(data[1].substr(6));
 
   return [numberX, ' ' + numberY];
 };
@@ -243,8 +243,10 @@ departureTimeInput.addEventListener('change', function () {
 });
 
 mainPin.addEventListener('mousedown', function (evt) {
-  enablePage();
-  renderElements(pins, mapPins);
+  if (document.querySelector('.map').classList.contains('map--faded')) {
+    enablePage();
+    renderElements(pins, mapPins);
+  }
 
   var startCoords = {
     x: evt.clientX,
@@ -268,24 +270,12 @@ mainPin.addEventListener('mousedown', function (evt) {
 
     mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
     mainPin.style.left = (mainPin.offsetLeft - shift.x) + 'px';
-    if (mainPin.offsetLeft < MIN_NUMBER_X) {
-      mainPin.style.left = MIN_NUMBER_X + 'px';
-    }
-    if (mainPin.offsetLeft > MAX_NUMBER_X - MAIN_PIN_WIDTH) {
-      mainPin.style.left = MAX_NUMBER_X - MAIN_PIN_WIDTH + 'px';
-    }
-    if (mainPin.offsetTop < MIN_NUMBER_Y - MAIN_PIN_HEIGHT) {
-      mainPin.style.top = MIN_NUMBER_Y - MAIN_PIN_HEIGHT + 'px';
-    }
-    if (mainPin.offsetTop > MAX_NUMBER_Y) {
-      mainPin.style.top = MAX_NUMBER_Y + 'px';
-    }
-    /*
-    if (mainPin.offsetLeft < MIN_NUMBER_X - Math.round(MAIN_PIN_WIDTH / 2)) { //
+
+    if (mainPin.offsetLeft < MIN_NUMBER_X - MAIN_PIN_WIDTH / 2) {
       mainPin.style.left = MIN_NUMBER_X - MAIN_PIN_WIDTH / 2 + 'px';
     }
-    if (mainPin.offsetLeft > MAX_NUMBER_X - Math.round(MAIN_PIN_WIDTH / 2)) {
-      mainPin.style.left = MAX_NUMBER_X - Math.round(MAIN_PIN_WIDTH / 2) + 'px';
+    if (mainPin.offsetLeft > MAX_NUMBER_X - MAIN_PIN_WIDTH / 2) {
+      mainPin.style.left = MAX_NUMBER_X - MAIN_PIN_WIDTH / 2 + 'px';
     }
     if (mainPin.offsetTop < MIN_NUMBER_Y - MAIN_PIN_HEIGHT) {
       mainPin.style.top = MIN_NUMBER_Y - MAIN_PIN_HEIGHT + 'px';
@@ -293,7 +283,6 @@ mainPin.addEventListener('mousedown', function (evt) {
     if (mainPin.offsetTop > MAX_NUMBER_Y) {
       mainPin.style.top = MAX_NUMBER_Y + 'px';
     }
-    */
   };
 
   /**
