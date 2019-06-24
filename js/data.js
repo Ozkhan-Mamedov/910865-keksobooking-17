@@ -3,9 +3,11 @@
 (function () {
   /**
    * Функция генерирования массива объектов, описывающих объявления
-   * @return {Object[]} результат генерации - массив объектов
+   * @return { {author: string,
+   *           offer: string,
+   *           location: Object[]}[] } objects результат генерации - массив объектов
    */
-  window.makeAdObjects = function () {
+  window.generateAdObjects = function () {
     var objects = [];
     var livings = ['palace', 'flat', 'house', 'bungalo'];
     var images = ['img/avatars/user01', 'img/avatars/user02', 'img/avatars/user03', 'img/avatars/user04', 'img/avatars/user05', 'img/avatars/user06', 'img/avatars/user07', 'img/avatars/user08'];
@@ -30,7 +32,9 @@
 
   /**
    * Функция создания DOM-элементов
-   * @param {Object[]} objects массив объектов
+   * @param { {author: string,
+   *           offer: string,
+   *           location: Object[]}[] } objects массив объектов
    * @param {Object} template шаблон элемента
    * @return {Object[]} массив DOM-элементов
    */
@@ -54,7 +58,6 @@
   /**
    * Функция заполнения блока DOM-элементами
    * @param {Object[]} elements массив DOM-элементов
-   * @param {Object} block блок, заполняемый DOM-элементами
    */
   window.renderElements = function (elements) {
     var mapPins = document.querySelector('.map__pins');

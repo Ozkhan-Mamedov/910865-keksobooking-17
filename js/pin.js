@@ -6,7 +6,7 @@
 
   var mainPin = document.querySelector('.map__pin--main');
   window.addressInput = document.getElementById('address');
-  var data = window.makeAdObjects();
+  var data = window.generateAdObjects();
   var template = document.querySelector('#pin').content.querySelector('.map__pin');
 
   var pins = window.createDomElements(data, template);
