@@ -29,7 +29,7 @@
 
     /**
      * Обработчик перемещения мыши
-     * @param {Object} moveEvt объект события перемещения мыши
+     * @param {MouseEvent} moveEvt объект события перемещения мыши
      */
     var onMouseMove = function (moveEvt) {
       var shift = {
@@ -61,7 +61,6 @@
 
     /**
      * Обработчик события при отпускании кнопки мыши
-     * @param {Object} upEvt объект события отпускания кнопки мыши
      */
     var onMouseUp = function () {
       document.removeEventListener('mousemove', onMouseMove);

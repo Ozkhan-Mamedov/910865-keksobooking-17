@@ -12,7 +12,7 @@
 
   /**
    * Функция деактивации элементов
-   * @param {Object[]} elements массив деактивируемых элементов
+   * @param {HTMLElement[]} elements массив деактивируемых элементов
    */
   window.disableElements = function (elements) {
     for (var i = 0; i < elements.length; i++) {
@@ -22,7 +22,7 @@
 
   /**
    * Функция активации элементов
-   * @param {Object[]} elements массив активируемых элементов
+   * @param {HTMLElement[]} elements массив активируемых элементов
    */
   window.enableElements = function (elements) {
     for (var i = 0; i < elements.length; i++) {
@@ -41,12 +41,11 @@
 
   /**
    * Функция сихронизации времени
-   * @param {Object} timeInput время относительно которого синхронизируемся
-   * @param {Object} targetTimeInput синхронизируемое время
+   * @param {Element} timeInput время относительно которого синхронизируемся
+   * @param {Element} targetTimeInput синхронизируемое время
    */
   var synchronizeTimeInputs = function (timeInput, targetTimeInput) {
-    var currentValue = timeInput.value;
-    targetTimeInput.value = currentValue;
+    targetTimeInput.value = timeInput.value;
   };
 
   window.fieldsetsModified = window.util.copyElements(fieldsets);

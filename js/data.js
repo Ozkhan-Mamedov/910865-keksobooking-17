@@ -35,8 +35,8 @@
    * @param { {author: string,
    *           offer: string,
    *           location: Object[]}[] } objects массив объектов
-   * @param {Object} template шаблон элемента
-   * @return {Object[]} массив DOM-элементов
+   * @param {Element} template шаблон элемента
+   * @return {HTMLElement[]} массив DOM-элементов
    */
   window.createDomElements = function (objects, template) {
     var PIN_WIDTH = 50;
@@ -57,7 +57,7 @@
 
   /**
    * Функция заполнения блока DOM-элементами
-   * @param {Object[]} elements массив DOM-элементов
+   * @param {HTMLElement[]} elements массив DOM-элементов
    */
   window.renderElements = function (elements) {
     var mapPins = document.querySelector('.map__pins');

@@ -8,8 +8,8 @@
 
   /**
    * Функция копирования элементов из псевдомассива в массив
-   * @param {Object[]} arr псевдомассив
-   * @return {Object[]} массив
+   * @param {NodeListOf<Element>} arr псевдомассив
+   * @return {Element[]} массив
    */
   var copyElements = function (arr) {
     var arrModified = [];
@@ -33,7 +33,7 @@
 
   /**
    * Функция извлекает число из строки
-   * @param {Object[]} data массив строк с координатами
+   * @param {String[]} data массив строк с координатами
    * @return {Object[]} обработанный массив
    */
   var extractNumber = function (data) {
