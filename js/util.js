@@ -54,6 +54,17 @@
     return extractNumber(coords);
   };
 
+  /**
+   * Функция создает блок с сообщением об шибке по шаблону
+   */
+  var generateErrorMessage = function () {
+    var errorTemplate = document.querySelector('#error').content.querySelector('.error');
+    var errorBlock = errorTemplate.cloneNode(true);
+    var mainBlock = document.querySelector('main');
+
+    mainBlock.appendChild(errorBlock);
+  };
+
   window.util = {
     MIN_NUMBER_X: MIN_NUMBER_X,
     MIN_NUMBER_Y: MIN_NUMBER_Y,
@@ -61,6 +72,7 @@
     MAX_NUMBER_Y: MAX_NUMBER_Y,
     copyElements: copyElements,
     getRandomNumber: getRandomNumber,
-    getCoords: getCoords
+    getCoords: getCoords,
+    generateErrorMessage: generateErrorMessage
   };
 })();
