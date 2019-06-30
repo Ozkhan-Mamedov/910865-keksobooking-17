@@ -40,4 +40,16 @@
 
     mapPins.appendChild(nodes);
   };
+
+  /**
+   * Функция удаляет отрисованные пины
+   */
+  window.excludeElements = function () {
+    var mapPins = document.querySelector('.map__pins');
+    var oddPins = mapPins.querySelectorAll('[type="button"]');
+
+    window.util.copyElements(oddPins).forEach(function (it) {
+      mapPins.removeChild(it);
+    });
+  };
 })();
