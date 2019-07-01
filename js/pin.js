@@ -16,7 +16,7 @@
    *           location: Object[]}[] } data
    */
   var onLoad = function (data) {
-    var pins = window.createDomElements(data, window.template);
+    window.pins = window.createDomElements(data, window.template);
 
     mainPin.addEventListener('mouseup', function () {
       var pinCoordsStyle = mainPin.getAttribute('style');
@@ -24,11 +24,6 @@
       window.addressInput.setAttribute('value', pinCoords);
     });
     mainPin.addEventListener('mousedown', function (evt) {
-      if (document.querySelector('.map').classList.contains('map--faded')) {
-        window.enablePage();
-        window.renderElements(pins.slice(0, window.PIN_NUM));
-      }
-
       window.startCoords = {
         x: evt.clientX,
         y: evt.clientY
@@ -62,6 +57,8 @@
       y: moveEvt.clientY
     };
 
+    window.enablePage();
+    window.renderElements(window.pins.slice(0, window.PIN_NUM));
     mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
     mainPin.style.left = (mainPin.offsetLeft - shift.x) + 'px';
 

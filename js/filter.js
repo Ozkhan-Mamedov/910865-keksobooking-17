@@ -8,10 +8,14 @@
    */
   var updatePins = function () {
     var sameLivingType = window.serverData.response.filter(function (it) {
-      return it.offer.type === housingTypeFilter.value;
+      if (housingTypeFilter.value === 'any') {
+        return it.offer.type;
+      } else {
+        return it.offer.type === housingTypeFilter.value;
+      }
     });
 
-    window.excludeElements();
+    window.cleanUpMap();
     window.renderElements(window.createDomElements(sameLivingType.slice(0, window.PIN_NUM), window.template));
   };
 
