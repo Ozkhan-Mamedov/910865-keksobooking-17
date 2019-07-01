@@ -7,7 +7,6 @@
     'house': 5000,
     'palace': 10000
   };
-
   var fieldsets = document.querySelectorAll('.ad-form__element');
 
   /**

@@ -2,7 +2,6 @@
 
 (function () {
   var INITIAL_MAIN_PIN_COORDS = [570, ' ' + 375];
-
   var filters = document.querySelectorAll('.map__filters');
 
   /**
