@@ -17,6 +17,9 @@
    */
   var onLoad = function (data) {
     window.pins = window.createDomElements(data, window.template);
+    window.pins[0].addEventListener('click', function () {
+      window.fillInCardData(window.renderCard());
+    });
 
     mainPin.addEventListener('mouseup', function () {
       var pinCoordsStyle = mainPin.getAttribute('style');
