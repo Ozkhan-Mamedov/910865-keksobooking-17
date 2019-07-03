@@ -46,7 +46,7 @@
    */
   window.cleanUpMap = function () {
     var mapPins = document.querySelector('.map__pins');
-    var oldPins = mapPins.querySelectorAll('[type="button"]');
+    var oldPins = mapPins.querySelectorAll('.map__pin[type="button"]');
 
     oldPins.forEach(function (it) {
       mapPins.removeChild(it);
