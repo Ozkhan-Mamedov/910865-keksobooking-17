@@ -7,6 +7,7 @@
   var util = window.util;
   window.template = document.querySelector('#pin').content.querySelector('.map__pin');
   var mainPin = document.querySelector('.map__pin--main');
+  var mapPins = document.querySelector('.map__pins');
   window.addressInput = document.querySelector('#address');
 
   /**
@@ -18,7 +19,9 @@
   var onLoad = function (data) {
     window.pins = window.createDomElements(data, window.template);
     window.pins[0].addEventListener('click', function () {
-      window.fillInCardData(window.renderCard());
+      if (!mapPins.contains(document.querySelector('.map__card'))) {
+        window.fillInCardData(window.renderCard());
+      }
     });
 
     mainPin.addEventListener('mouseup', function () {
@@ -43,6 +46,8 @@
       document.addEventListener('mousemove', onMouseMove);
       document.addEventListener('mouseup', onMouseUp);
     });
+
+    window.offer = window.serverData.response[0].offer;
   };
 
   /**
