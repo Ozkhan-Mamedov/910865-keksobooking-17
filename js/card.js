@@ -24,51 +24,6 @@
     var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 
     /**
-     * Функция получает особенности(features)
-     * @return {String}
-     */
-    /*
-    var getFeatures = function () {
-      var arr = window.serverData.response[0].offer.features;
-      var features = '';
-
-      for (var i = 0; i < arr.length; i++) {
-        switch (arr[i]) {
-          case 'wifi':
-            features += 'Wi-Fi';
-            break;
-
-          case 'dishwasher':
-            features += 'посудомоечная машина';
-            break;
-
-          case 'parking':
-            features += 'парковка';
-            break;
-
-          case 'washer':
-            features += 'стиральная машина';
-            break;
-
-          case 'elevator':
-            features += 'лифт';
-            break;
-
-          case 'conditioner':
-            features += 'кондиционер';
-            break;
-        }
-
-        if (i !== arr.length - 1) {
-          features += ', ';
-        }
-      }
-
-      return features;
-    };
-    */
-
-    /**
      * Функция отрисовывает изображения в карточке
      */
     var renderImages = function () {
@@ -108,7 +63,7 @@
     }
 
     /**
-     *
+     * Функция отрисовывает требуемые особенности
      */
     var renderFeature = function () {
       var features = document.querySelectorAll('.popup__feature');
