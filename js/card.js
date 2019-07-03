@@ -27,6 +27,7 @@
      * Функция получает особенности(features)
      * @return {String}
      */
+    /*
     var getFeatures = function () {
       var arr = window.serverData.response[0].offer.features;
       var features = '';
@@ -65,6 +66,7 @@
 
       return features;
     };
+    */
 
     /**
      * Функция отрисовывает изображения в карточке
@@ -105,13 +107,52 @@
         break;
     }
 
+    /**
+     *
+     */
+    var renderFeature = function () {
+      var features = document.querySelectorAll('.popup__feature');
+
+      features.forEach(function (it) {
+        it.style = 'display: none';
+      });
+
+      for (var i = 0; i < offer.features.length; i++) {
+        switch (offer.features[i]) {
+          case 'wifi':
+            document.querySelector('.popup__feature--wifi').style = 'display: inline-block';
+            break;
+
+          case 'dishwasher':
+            document.querySelector('.popup__feature--dishwasher').style = 'display: inline-block';
+            break;
+
+          case 'parking':
+            document.querySelector('.popup__feature--parking').style = 'display: inline-block';
+            break;
+
+          case 'washer':
+            document.querySelector('.popup__feature--washer').style = 'display: inline-block';
+            break;
+
+          case 'elevator':
+            document.querySelector('.popup__feature--elevator').style = 'display: inline-block';
+            break;
+
+          case 'conditioner':
+            document.querySelector('.popup__feature--conditioner').style = 'display: inline-block';
+            break;
+        }
+      }
+    };
+
     cardModel.querySelector('.popup__title').textContent = window.serverData.response[0].offer.title;
     cardModel.querySelector('.popup__text--address').textContent = window.serverData.response[0].offer.address;
     cardModel.querySelector('.popup__text--price').textContent = offer.price + '₽/ночь';
     cardModel.querySelector('.popup__type').textContent = offer.type;
     cardModel.querySelector('.popup__text--capacity').textContent = offer.rooms + ' комнаты для ' + offer.guests + ' гостей';
     cardModel.querySelector('.popup__text--time').textContent = 'Заезд после ' + offer.checkin + ', ' + 'выезд до ' + offer.checkout;
-    cardModel.querySelector('.popup__features').textContent = getFeatures();
+    renderFeature();
     cardModel.querySelector('.popup__description').textContent = offer.description;
     cardModel.querySelector('.popup__photos').src = renderImages();
     cardModel.querySelector('.popup__avatar').src = window.serverData.response[0].author.avatar;
