@@ -21,6 +21,9 @@
       pinModel.style.left = (objects[i].location.x - PIN_WIDTH / 2) + 'px';
       pinModel.style.top = (objects[i].location.y - PIN_HEIGHT) + 'px';
       elements[i] = pinModel;
+      pinModel.addEventListener('click', function () {
+        console.log(1);
+      });
     }
 
     return elements;
@@ -32,13 +35,13 @@
    */
   window.renderElements = function (elements) {
     var mapPins = document.querySelector('.map__pins');
-    var nodes = document.createDocumentFragment();
+    var nodesFragment = document.createDocumentFragment();
 
     for (var i = 0; i < elements.length; i++) {
-      nodes.appendChild(elements[i]);
+      nodesFragment.appendChild(elements[i]);
     }
 
-    mapPins.appendChild(nodes);
+    mapPins.appendChild(nodesFragment);
   };
 
   /**

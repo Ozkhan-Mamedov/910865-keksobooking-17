@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  var isActivated = false;
   var MAIN_PIN_WIDTH = 65;
   var MAIN_PIN_HEIGHT = 65;
   window.PIN_NUM = 5;
@@ -8,6 +9,7 @@
   window.template = document.querySelector('#pin').content.querySelector('.map__pin');
   var mainPin = document.querySelector('.map__pin--main');
   var mapPins = document.querySelector('.map__pins');
+  //var housingTypeFilter = document.querySelector('#housing-type');
   window.addressInput = document.querySelector('#address');
 
   /**
@@ -65,8 +67,14 @@
       y: moveEvt.clientY
     };
 
-    window.enablePage();
-    window.renderElements(window.pins.slice(0, window.PIN_NUM));
+    if (isActivated === false) {
+      isActivated = true;
+      window.enablePage();
+      window.renderElements(window.pins.slice(0, window.PIN_NUM));
+    }
+    //window.enablePage();
+    //window.renderElements(window.pins.slice(0, window.PIN_NUM));
+    //housingTypeFilter.value = 'any';
     mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
     mainPin.style.left = (mainPin.offsetLeft - shift.x) + 'px';
 
