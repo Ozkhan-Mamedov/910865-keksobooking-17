@@ -65,28 +65,30 @@
    * @param {HTMLElement} cardModel объект карточки
    */
   window.fillInCardData = function (cardModel) {
+    var offerType = '';
+
     switch (window.offer.type) {
       case 'flat':
-        window.offer.type = 'Квартира';
+        offerType = 'Квартира';
         break;
 
       case 'bungalo':
-        window.offer.type = 'Бунгало';
+        offerType = 'Бунгало';
         break;
 
       case 'house':
-        window.offer.type = 'Дом';
+        offerType = 'Дом';
         break;
 
       case 'palace':
-        window.offer.type = 'Дворец';
+        offerType = 'Дворец';
         break;
     }
 
     cardModel.querySelector('.popup__title').textContent = window.serverData.response[0].offer.title;
     cardModel.querySelector('.popup__text--address').textContent = window.serverData.response[0].offer.address;
     cardModel.querySelector('.popup__text--price').textContent = window.offer.price + '₽/ночь';
-    cardModel.querySelector('.popup__type').textContent = window.offer.type;
+    cardModel.querySelector('.popup__type').textContent = offerType;
     cardModel.querySelector('.popup__text--capacity').textContent = window.offer.rooms + ' комнаты для ' + window.offer.guests + ' гостей';
     cardModel.querySelector('.popup__text--time').textContent = 'Заезд после ' + window.offer.checkin + ', ' + 'выезд до ' + window.offer.checkout;
     renderFeature();

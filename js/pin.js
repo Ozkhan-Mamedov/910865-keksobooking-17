@@ -8,8 +8,6 @@
   var util = window.util;
   window.template = document.querySelector('#pin').content.querySelector('.map__pin');
   var mainPin = document.querySelector('.map__pin--main');
-  var mapPins = document.querySelector('.map__pins');
-  //var housingTypeFilter = document.querySelector('#housing-type');
   window.addressInput = document.querySelector('#address');
 
   /**
@@ -20,11 +18,6 @@
    */
   var onLoad = function (data) {
     window.pins = window.createDomElements(data, window.template);
-    window.pins[0].addEventListener('click', function () {
-      if (!mapPins.contains(document.querySelector('.map__card'))) {
-        window.fillInCardData(window.renderCard());
-      }
-    });
 
     mainPin.addEventListener('mouseup', function () {
       var pinCoordsStyle = mainPin.getAttribute('style');
@@ -72,9 +65,7 @@
       window.enablePage();
       window.renderElements(window.pins.slice(0, window.PIN_NUM));
     }
-    //window.enablePage();
-    //window.renderElements(window.pins.slice(0, window.PIN_NUM));
-    //housingTypeFilter.value = 'any';
+
     mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
     mainPin.style.left = (mainPin.offsetLeft - shift.x) + 'px';
 

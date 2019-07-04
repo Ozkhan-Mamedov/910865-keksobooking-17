@@ -13,6 +13,7 @@
     var PIN_WIDTH = 50;
     var PIN_HEIGHT = 70;
     var elements = [];
+    var mapPins = document.querySelector('.map__pins');
 
     for (var i = 0; i < objects.length; i++) {
       var pinModel = template.cloneNode(true);
@@ -20,10 +21,12 @@
       pinModel.querySelector('img').src = objects[i].author.avatar;
       pinModel.style.left = (objects[i].location.x - PIN_WIDTH / 2) + 'px';
       pinModel.style.top = (objects[i].location.y - PIN_HEIGHT) + 'px';
-      elements[i] = pinModel;
       pinModel.addEventListener('click', function () {
-        console.log(1);
+        if (!mapPins.contains(document.querySelector('.map__card'))) {
+          window.fillInCardData(window.renderCard());
+        }
       });
+      elements[i] = pinModel;
     }
 
     return elements;
