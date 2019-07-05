@@ -4,12 +4,12 @@
   var MIN_NUMBER_X = 0;
   var MAX_NUMBER_Y = 630;
   var MIN_NUMBER_Y = 130;
-  var MAX_NUMBER_X = document.querySelector('.map__pins').clientWidth;
+  var MAX_NUMBER_X = window.selectors.mapPins.clientWidth;
 
   /**
    * Функция копирования элементов из псевдомассива в массив
-   * @param {NodeListOf<Element>} arr псевдомассив
-   * @return {Element[]} массив
+   * @param {NodeListOf<Element>} arr
+   * @return {Element[]}
    */
   var copyElements = function (arr) {
     var arrModified = [];
@@ -22,31 +22,31 @@
   };
 
   /**
-   * Функция генерирования случайного числа
-   * @param {Number} min
-   * @param {Number} max
-   * @return {Number} результат генерации
-   */
-  var getRandomNumber = function (min, max) {
-    return Math.round(Math.random() * (max - min) + min);
-  };
-
-  /**
-   * Функция извлекает число из строки
-   * @param {String[]} data массив строк с координатами
-   * @return {Object[]} обработанный массив
+   * @param {String[]} data
+   * @return { {x: Number,
+   *            y: Number} }
    */
   var extractNumber = function (data) {
-    var numberX = parseFloat(data[0].substr(6));
-    var numberY = parseFloat(data[1].substr(6));
-
-    return [numberX, ' ' + numberY];
+    return {
+      x: parseFloat(data[0].substr(6)),
+      y: parseFloat(data[1].substr(6))
+    };
   };
 
   /**
-   * Функция получения координат
-   * @param {String} expression подаваемая строка
-   * @return {Object[]} массив с координатами
+   * @param { {x: Number,
+   *           y: Number} } coords
+   * @return {String}
+   */
+  var formatCoords = function (coords) {
+    return coords.x + ', ' + coords.y;
+  };
+
+  /**
+   * Функция получения массива с координатами
+   * @param {String} expression строка вида ('* ; *')
+   * @return { {x: Number,
+   *            y: Number} }
    */
   var getCoords = function (expression) {
     var coords = expression.split(';');
@@ -65,13 +65,13 @@
     mainBlock.appendChild(errorBlock);
   };
 
-  window.util = {
+  window.keksobooking.util = {
     MIN_NUMBER_X: MIN_NUMBER_X,
     MIN_NUMBER_Y: MIN_NUMBER_Y,
     MAX_NUMBER_X: MAX_NUMBER_X,
     MAX_NUMBER_Y: MAX_NUMBER_Y,
     copyElements: copyElements,
-    getRandomNumber: getRandomNumber,
+    formatCoords: formatCoords,
     getCoords: getCoords,
     generateErrorMessage: generateErrorMessage
   };

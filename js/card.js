@@ -2,12 +2,13 @@
 
 (function () {
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
+  var serverData = window.keksobooking.pin.serverData;
 
   /**
    * Функция отрисовывает изображения в карточке
    */
   var renderImages = function () {
-    var images = window.serverData.response[0].offer.photos;
+    var images = serverData.response[0].offer.photos;
     var imgTemplate = cardTemplate.querySelector('.popup__photo');
     var nodes = document.createDocumentFragment();
     var imgContainer = document.querySelector('.popup__photos');
@@ -26,15 +27,12 @@
 
   /**
    * Функция присваивает стиль отображения блока карточкам
-   * @param {String} feature особенность
+   * @param {String} feature
    */
   var setDisplayStyle = function (feature) {
     document.querySelector('.popup__feature--' + feature).style = 'display: inline-block';
   };
 
-  /**
-   * Функция отрисовывает требуемые особенности
-   */
   var renderFeature = function () {
     var features = document.querySelectorAll('.popup__feature');
 
@@ -42,32 +40,30 @@
       it.style = 'display: none';
     });
 
-    for (var i = 0; i < window.offer.features.length; i++) {
-      setDisplayStyle(window.offer.features[i]);
+    for (var i = 0; i < serverData.response[0].offer.features.length; i++) {
+      setDisplayStyle(serverData.response[0].offer.features[i]);
     }
   };
 
   /**
-   * Функция отрисовывает карточку с информацией
-   * @return {HTMLElement}
+   * @return {Node}
    */
-  window.renderCard = function () {
+  var renderCard = function () {
     var cardModel = cardTemplate.cloneNode(true);
-    var mapPins = document.querySelector('.map__pins');
+    // var mapPins = document.querySelector('.map__pins');
 
-    mapPins.appendChild(cardModel);
+    window.selectors.mapPins.appendChild(cardModel);
 
     return cardModel;
   };
 
   /**
-   * Функция заполняет карточку данными с сервера
-   * @param {HTMLElement} cardModel объект карточки
+   * @param {HTMLElement} cardModel
    */
-  window.fillInCardData = function (cardModel) {
+  var fillInCardData = function (cardModel) {
     var offerType = '';
 
-    switch (window.offer.type) {
+    switch (serverData.response[0].offer.type) {
       case 'flat':
         offerType = 'Квартира';
         break;
@@ -85,18 +81,23 @@
         break;
     }
 
-    cardModel.querySelector('.popup__title').textContent = window.serverData.response[0].offer.title;
-    cardModel.querySelector('.popup__text--address').textContent = window.serverData.response[0].offer.address;
-    cardModel.querySelector('.popup__text--price').textContent = window.offer.price + '₽/ночь';
+    cardModel.querySelector('.popup__title').textContent = serverData.response[0].offer.title;
+    cardModel.querySelector('.popup__text--address').textContent = serverData.response[0].offer.address;
+    cardModel.querySelector('.popup__text--price').textContent = serverData.response[0].offer.price + '₽/ночь';
     cardModel.querySelector('.popup__type').textContent = offerType;
-    cardModel.querySelector('.popup__text--capacity').textContent = window.offer.rooms + ' комнаты для ' + window.offer.guests + ' гостей';
-    cardModel.querySelector('.popup__text--time').textContent = 'Заезд после ' + window.offer.checkin + ', ' + 'выезд до ' + window.offer.checkout;
+    cardModel.querySelector('.popup__text--capacity').textContent = serverData.response[0].offer.rooms + ' комнаты для ' + serverData.response[0].offer.guests + ' гостей';
+    cardModel.querySelector('.popup__text--time').textContent = 'Заезд после ' + serverData.response[0].offer.checkin + ', ' + 'выезд до ' + serverData.response[0].offer.checkout;
     renderFeature();
-    cardModel.querySelector('.popup__description').textContent = window.offer.description;
+    cardModel.querySelector('.popup__description').textContent = serverData.response[0].offer.description;
     cardModel.querySelector('.popup__photos').src = renderImages();
-    cardModel.querySelector('.popup__avatar').src = window.serverData.response[0].author.avatar;
+    cardModel.querySelector('.popup__avatar').src = serverData.response[0].author.avatar;
     document.querySelector('.popup__close').addEventListener('click', function () {
-      document.querySelector('.map__pins').removeChild(document.querySelector('.popup'));
+      window.selectors.mapPins.removeChild(document.querySelector('.popup'));
     });
+  };
+
+  window.keksobooking.card = {
+    renderCard: renderCard,
+    fillInCardData: fillInCardData
   };
 })();

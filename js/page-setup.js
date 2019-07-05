@@ -1,29 +1,58 @@
 'use strict';
 
 (function () {
-  var INITIAL_MAIN_PIN_COORDS = [570, ' ' + 375];
+  var PIN_NUM = 5;
+  var INITIAL_MAIN_PIN_COORDS = {
+    x: 570,
+    y: 375
+  };
   var filters = document.querySelectorAll('.map__filters');
+  var fieldsets = document.querySelectorAll('.ad-form__element');
+  var fieldsetsModified = window.keksobooking.util.copyElements(fieldsets);
 
-  /**
-   * Функция деактивации страницы
-   */
-  window.disablePage = function () {
-    document.querySelector('.map').classList.add('map--faded');
-    document.querySelector('.ad-form').classList.add('ad-form--disabled');
+  var disablePage = function () {
+    window.selectors.map.classList.add('map--faded');
+    window.selectors.form.classList.add('ad-form--disabled');
+    window.selectors.addressInput.setAttribute('value', window.keksobooking.util.formatCoords(INITIAL_MAIN_PIN_COORDS));
+    window.selectors.mainPin.style = 'left: 570px; top: 375px;';
+    window.keksobooking.data.cleanUpMap();
+    window.isActivated = false;
+    disableElements(fieldsetsModified);
+    disableElements(filters);
+  };
 
-    window.addressInput.setAttribute('value', INITIAL_MAIN_PIN_COORDS);
-    window.disableElements(window.fieldsetsModified);
-    window.disableElements(filters);
+  var enablePage = function () {
+    window.selectors.map.classList.remove('map--faded');
+    window.selectors.form.classList.remove('ad-form--disabled');
+    window.keksobooking.data.renderElements(window.pins.slice(0, PIN_NUM));
+    enableElements(fieldsetsModified);
+    enableElements(filters);
   };
 
   /**
-   * Функция активации страницы
+   * Функция деактивации элементов формы
+   * @param {NodeListOf} elements
    */
-  window.enablePage = function () {
-    document.querySelector('.map').classList.remove('map--faded');
-    document.querySelector('.ad-form').classList.remove('ad-form--disabled');
+  var disableElements = function (elements) {
+    for (var i = 0; i < elements.length; i++) {
+      elements[i].setAttribute('disabled', 'disabled');
+    }
+  };
 
-    window.enableElements(window.fieldsetsModified);
-    window.enableElements(filters);
+  /**
+   * Функция активации элементов формы
+   * @param {NodeListOf} elements
+   */
+  var enableElements = function (elements) {
+    for (var i = 0; i < elements.length; i++) {
+      elements[i].removeAttribute('disabled');
+    }
+  };
+
+  fieldsetsModified.push(document.querySelector('.ad-form-header'));
+
+  window.keksobooking.pagesetup = {
+    enablePage: enablePage,
+    disablePage: disablePage
   };
 })();
