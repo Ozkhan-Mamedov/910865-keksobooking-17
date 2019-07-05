@@ -36,11 +36,19 @@
     return document.querySelector('.ad-form');
   };
 
+  /**
+   * @return {Element}
+   */
+  var getPinTemplate = function () {
+    return document.querySelector('#pin').content.querySelector('.map__pin');
+  };
+
   window.selectors = {
     mapPins: getMapPins(),
     mainPin: getMainPin(),
     map: getMapElement(),
     addressInput: getAddressInput(),
-    form: getFormElement()
+    form: getFormElement(),
+    pinTemplate: getPinTemplate()
   };
 })();

@@ -5,7 +5,6 @@
   var MAIN_PIN_HEIGHT = 65;
   var PIN_NUM = 5;
   var util = window.keksobooking.util;
-  var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
   var mainPin = window.selectors.mainPin;
   window.isActivated = false;
 
@@ -16,7 +15,7 @@
    *           location: Object[]}[] } data
    */
   var onLoad = function (data) {
-    window.pins = window.keksobooking.data.createDomElements(data, pinTemplate);
+    window.pins = window.keksobooking.data.createDomElements(data, window.selectors.pinTemplate);
 
     mainPin.addEventListener('mouseup', function () {
       var pinCoordsStyle = mainPin.getAttribute('style');

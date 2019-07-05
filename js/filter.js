@@ -3,7 +3,6 @@
 (function () {
   var PIN_NUM = 5;
   var housingTypeFilter = document.querySelector('#housing-type');
-  var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 
   /**
    * Фильтр - обработчик типа жилья
@@ -18,7 +17,7 @@
     });
 
     window.keksobooking.data.cleanUpMap();
-    window.keksobooking.data.renderElements(window.keksobooking.data.createDomElements(sameLivingType.slice(0, PIN_NUM), pinTemplate));
+    window.keksobooking.data.renderElements(window.keksobooking.data.createDomElements(sameLivingType.slice(0, PIN_NUM), window.selectors.pinTemplate));
   };
 
   housingTypeFilter.addEventListener('change', updatePins);
