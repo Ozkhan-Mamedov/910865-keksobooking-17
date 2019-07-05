@@ -10,7 +10,7 @@
    * @param {function} onError обработчик ошибки
    * @return {Object} объект запроса
    */
-  window.load = function (onLoad, onError) {
+  var load = function (onLoad, onError) {
     var xhr = new XMLHttpRequest();
 
     xhr.responseType = 'json';
@@ -25,5 +25,9 @@
     });
 
     return xhr;
+  };
+
+  window.keksobooking.backend = {
+    load: load
   };
 })();

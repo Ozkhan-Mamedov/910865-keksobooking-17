@@ -2,14 +2,13 @@
 
 (function () {
   /**
-   * Функция создания DOM-элементов
    * @param { {author: string,
    *           offer: string,
-   *           location: Object[]}[] } objects массив объектов
+   *           location: Object[]}[] } objects
    * @param {Element} template шаблон элемента
-   * @return {HTMLElement[]} массив DOM-элементов
+   * @return {HTMLElement[]}
    */
-  window.createDomElements = function (objects, template) {
+  var createDomElements = function (objects, template) {
     var PIN_WIDTH = 50;
     var PIN_HEIGHT = 70;
     var elements = [];
@@ -20,6 +19,11 @@
       pinModel.querySelector('img').src = objects[i].author.avatar;
       pinModel.style.left = (objects[i].location.x - PIN_WIDTH / 2) + 'px';
       pinModel.style.top = (objects[i].location.y - PIN_HEIGHT) + 'px';
+      pinModel.addEventListener('click', function () {
+        if (!window.selectors.mapPins.contains(document.querySelector('.map__card'))) {
+          window.keksobooking.card.fillInCardData(window.keksobooking.card.renderCard());
+        }
+      });
       elements[i] = pinModel;
     }
 
@@ -27,29 +31,29 @@
   };
 
   /**
-   * Функция заполнения блока DOM-элементами
-   * @param {HTMLElement[]} elements массив DOM-элементов
+   * @param {HTMLElement[]} elements
    */
-  window.renderElements = function (elements) {
-    var mapPins = document.querySelector('.map__pins');
-    var nodes = document.createDocumentFragment();
+  var renderElements = function (elements) {
+    var nodesFragment = document.createDocumentFragment();
 
     for (var i = 0; i < elements.length; i++) {
-      nodes.appendChild(elements[i]);
+      nodesFragment.appendChild(elements[i]);
     }
 
-    mapPins.appendChild(nodes);
+    window.selectors.mapPins.appendChild(nodesFragment);
   };
 
-  /**
-   * Функция удаляет отрисованные пины
-   */
-  window.cleanUpMap = function () {
-    var mapPins = document.querySelector('.map__pins');
-    var oldPins = mapPins.querySelectorAll('[type="button"]');
+  var cleanUpMap = function () {
+    var oldPins = window.selectors.mapPins.querySelectorAll('.map__pin[type="button"]');
 
     oldPins.forEach(function (it) {
-      mapPins.removeChild(it);
+      window.selectors.mapPins.removeChild(it);
     });
+  };
+
+  window.keksobooking.data = {
+    cleanUpMap: cleanUpMap,
+    renderElements: renderElements,
+    createDomElements: createDomElements
   };
 })();

@@ -3,11 +3,10 @@
 (function () {
   var MAIN_PIN_WIDTH = 65;
   var MAIN_PIN_HEIGHT = 65;
-  window.PIN_NUM = 5;
-  var util = window.util;
-  window.template = document.querySelector('#pin').content.querySelector('.map__pin');
-  var mainPin = document.querySelector('.map__pin--main');
-  window.addressInput = document.querySelector('#address');
+  var PIN_NUM = 5;
+  var util = window.keksobooking.util;
+  var mainPin = window.selectors.mainPin;
+  window.isActivated = false;
 
   /**
    * Обработчик загрузки данных
@@ -16,12 +15,13 @@
    *           location: Object[]}[] } data
    */
   var onLoad = function (data) {
-    window.pins = window.createDomElements(data, window.template);
+    window.pins = window.keksobooking.data.createDomElements(data, window.selectors.pinTemplate);
 
     mainPin.addEventListener('mouseup', function () {
       var pinCoordsStyle = mainPin.getAttribute('style');
       var pinCoords = util.getCoords(pinCoordsStyle);
-      window.addressInput.setAttribute('value', pinCoords);
+
+      window.selectors.addressInput.setAttribute('value', util.formatCoords(pinCoords));
     });
     mainPin.addEventListener('mousedown', function (evt) {
       window.startCoords = {
@@ -44,7 +44,7 @@
 
   /**
    * Обработчик перемещения мыши
-   * @param {MouseEvent} moveEvt объект события перемещения мыши
+   * @param {MouseEvent} moveEvt
    */
   var onMouseMove = function (moveEvt) {
     var shift = {
@@ -57,8 +57,12 @@
       y: moveEvt.clientY
     };
 
-    window.enablePage();
-    window.renderElements(window.pins.slice(0, window.PIN_NUM));
+    if (window.isActivated === false) {
+      window.isActivated = true;
+      window.keksobooking.pagesetup.enablePage();
+      window.keksobooking.data.renderElements(window.pins.slice(0, PIN_NUM));
+    }
+
     mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
     mainPin.style.left = (mainPin.offsetLeft - shift.x) + 'px';
 
@@ -83,5 +87,9 @@
     util.generateErrorMessage();
   };
 
-  window.serverData = window.load(onLoad, onError);
+  var serverData = window.keksobooking.backend.load(onLoad, onError);
+
+  window.keksobooking.pin = {
+    serverData: serverData
+  };
 })();
