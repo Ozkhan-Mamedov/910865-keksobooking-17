@@ -5,10 +5,11 @@
   var serverData = window.keksobooking.pin.serverData;
 
   /**
+   * @param {Number} index
    * Функция отрисовывает изображения в карточке
    */
-  var renderImages = function () {
-    var images = serverData.response[0].offer.photos;
+  var renderImages = function (index) {
+    var images = serverData.response[index].offer.photos;
     var imgTemplate = cardTemplate.querySelector('.popup__photo');
     var nodes = document.createDocumentFragment();
     var imgContainer = document.querySelector('.popup__photos');
@@ -33,15 +34,15 @@
     document.querySelector('.popup__feature--' + feature).style = 'display: inline-block';
   };
 
-  var renderFeature = function () {
+  var renderFeature = function (index) {
     var features = document.querySelectorAll('.popup__feature');
 
     features.forEach(function (it) {
       it.style = 'display: none';
     });
 
-    for (var i = 0; i < serverData.response[0].offer.features.length; i++) {
-      setDisplayStyle(serverData.response[0].offer.features[i]);
+    for (var i = 0; i < serverData.response[index].offer.features.length; i++) {
+      setDisplayStyle(serverData.response[index].offer.features[i]);
     }
   };
 
@@ -50,7 +51,6 @@
    */
   var renderCard = function () {
     var cardModel = cardTemplate.cloneNode(true);
-    // var mapPins = document.querySelector('.map__pins');
 
     window.selectors.mapPins.appendChild(cardModel);
 
@@ -59,11 +59,12 @@
 
   /**
    * @param {HTMLElement} cardModel
+   * @param {Number} index
    */
-  var fillInCardData = function (cardModel) {
+  var fillInCardData = function (cardModel, index) {
     var offerType = '';
 
-    switch (serverData.response[0].offer.type) {
+    switch (serverData.response[index].offer.type) {
       case 'flat':
         offerType = 'Квартира';
         break;
@@ -81,16 +82,16 @@
         break;
     }
 
-    cardModel.querySelector('.popup__title').textContent = serverData.response[0].offer.title;
-    cardModel.querySelector('.popup__text--address').textContent = serverData.response[0].offer.address;
-    cardModel.querySelector('.popup__text--price').textContent = serverData.response[0].offer.price + '₽/ночь';
+    cardModel.querySelector('.popup__title').textContent = serverData.response[index].offer.title;
+    cardModel.querySelector('.popup__text--address').textContent = serverData.response[index].offer.address;
+    cardModel.querySelector('.popup__text--price').textContent = serverData.response[index].offer.price + '₽/ночь';
     cardModel.querySelector('.popup__type').textContent = offerType;
-    cardModel.querySelector('.popup__text--capacity').textContent = serverData.response[0].offer.rooms + ' комнаты для ' + serverData.response[0].offer.guests + ' гостей';
-    cardModel.querySelector('.popup__text--time').textContent = 'Заезд после ' + serverData.response[0].offer.checkin + ', ' + 'выезд до ' + serverData.response[0].offer.checkout;
-    renderFeature();
-    cardModel.querySelector('.popup__description').textContent = serverData.response[0].offer.description;
-    cardModel.querySelector('.popup__photos').src = renderImages();
-    cardModel.querySelector('.popup__avatar').src = serverData.response[0].author.avatar;
+    cardModel.querySelector('.popup__text--capacity').textContent = serverData.response[index].offer.rooms + ' комнаты для ' + serverData.response[index].offer.guests + ' гостей';
+    cardModel.querySelector('.popup__text--time').textContent = 'Заезд после ' + serverData.response[index].offer.checkin + ', ' + 'выезд до ' + serverData.response[index].offer.checkout;
+    renderFeature(index);
+    cardModel.querySelector('.popup__description').textContent = serverData.response[index].offer.description;
+    cardModel.querySelector('.popup__photos').src = renderImages(index);
+    cardModel.querySelector('.popup__avatar').src = serverData.response[index].author.avatar;
     document.querySelector('.popup__close').addEventListener('click', function () {
       window.selectors.mapPins.removeChild(document.querySelector('.popup'));
     });

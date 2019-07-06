@@ -17,13 +17,10 @@
       var pinModel = template.cloneNode(true);
 
       pinModel.querySelector('img').src = objects[i].author.avatar;
+      pinModel.querySelector('img').alt = objects[i].offer.title;
       pinModel.style.left = (objects[i].location.x - PIN_WIDTH / 2) + 'px';
       pinModel.style.top = (objects[i].location.y - PIN_HEIGHT) + 'px';
-      pinModel.addEventListener('click', function () {
-        if (!window.selectors.mapPins.contains(document.querySelector('.map__card'))) {
-          window.keksobooking.card.fillInCardData(window.keksobooking.card.renderCard());
-        }
-      });
+
       elements[i] = pinModel;
     }
 
@@ -41,6 +38,22 @@
     }
 
     window.selectors.mapPins.appendChild(nodesFragment);
+    window.selectors.mapPins.onclick = function (evt) {
+      if ((evt.target.tagName === 'IMG') && (evt.target.height === 40)) {
+        if (!window.selectors.mapPins.contains(document.querySelector('.map__card'))) {
+          var index = extractNumFromSrc(evt.target.attributes.src.value);
+          console.log(index);
+          //window.keksobooking.card.fillInCardData(window.keksobooking.card.renderCard(), extractNumFromSrc(evt.target.attributes.src.value));
+          window.keksobooking.card.fillInCardData(window.keksobooking.card.renderCard(), index - 1);
+        }
+      }
+    };
+  };
+
+  var extractNumFromSrc = function (str) {
+    var target = parseInt(str.substr(16), 10);
+
+    return target;
   };
 
   var cleanUpMap = function () {
