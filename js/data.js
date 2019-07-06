@@ -42,8 +42,8 @@
       if ((evt.target.tagName === 'IMG') && (evt.target.height === 40)) {
         if (!window.selectors.mapPins.contains(document.querySelector('.map__card'))) {
           var index = extractNumFromSrc(evt.target.attributes.src.value);
-          console.log(index);
-          //window.keksobooking.card.fillInCardData(window.keksobooking.card.renderCard(), extractNumFromSrc(evt.target.attributes.src.value));
+          // console.log(index);
+          // window.keksobooking.card.fillInCardData(window.keksobooking.card.renderCard(), extractNumFromSrc(evt.target.attributes.src.value));
           window.keksobooking.card.fillInCardData(window.keksobooking.card.renderCard(), index - 1);
         }
       }
