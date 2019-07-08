@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  var ESC_KEYCODE = 27;
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
   var serverData = window.keksobooking.pin.serverData;
 
@@ -95,6 +96,17 @@
     document.querySelector('.popup__close').addEventListener('click', function () {
       window.selectors.mapPins.removeChild(document.querySelector('.popup'));
     });
+    document.addEventListener('keydown', onEscPress);
+  };
+
+  /**
+   * @param {KeyboardEvent} keyEvt
+   */
+  var onEscPress = function (keyEvt) {
+    if (keyEvt.keyCode === ESC_KEYCODE) {
+      window.selectors.mapPins.removeChild(document.querySelector('.popup'));
+      document.removeEventListener('keydown', onEscPress);
+    }
   };
 
   window.keksobooking.card = {
