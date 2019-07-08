@@ -9,6 +9,23 @@
   window.isActivated = false;
 
   /**
+   * Создает объект, в котором для каждого пина создается "ключ" - его положение разметке, а значение - индекс
+   * @param {HTMLElement} elements
+   * @return { {HTMLElement.attributes.style.nodeValue: Number} }
+   */
+  var generateCoordsToIndexObject = function (elements) {
+    var coordsToIndex = {};
+
+    for (var i = 0; i < elements.length; i++) {
+      var coords = elements[i].attributes.style.nodeValue;
+
+      coordsToIndex[coords] = i;
+    }
+
+    return coordsToIndex;
+  };
+
+  /**
    * Обработчик загрузки данных
    * @param { {author: string,
    *           offer: string,
@@ -16,6 +33,7 @@
    */
   var onLoad = function (data) {
     window.pins = window.keksobooking.data.createDomElements(data, window.selectors.pinTemplate);
+    window.pinsIndex = generateCoordsToIndexObject(window.pins);
 
     mainPin.addEventListener('mouseup', function () {
       var pinCoordsStyle = mainPin.getAttribute('style');

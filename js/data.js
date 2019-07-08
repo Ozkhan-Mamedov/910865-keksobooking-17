@@ -1,6 +1,9 @@
 'use strict';
 
 (function () {
+  var PIN_WIDTH = 50;
+  var PIN_HEIGHT = 70;
+
   /**
    * @param { {author: string,
    *           offer: string,
@@ -9,9 +12,8 @@
    * @return {HTMLElement[]}
    */
   var createDomElements = function (objects, template) {
-    var PIN_WIDTH = 50;
-    var PIN_HEIGHT = 70;
     var elements = [];
+    window.pinscoords = [];
 
     for (var i = 0; i < objects.length; i++) {
       var pinModel = template.cloneNode(true);
@@ -20,11 +22,41 @@
       pinModel.querySelector('img').alt = objects[i].offer.title;
       pinModel.style.left = (objects[i].location.x - PIN_WIDTH / 2) + 'px';
       pinModel.style.top = (objects[i].location.y - PIN_HEIGHT) + 'px';
-
+      window.pinscoords.push(getLoadedCoordsList(objects[i]));
       elements[i] = pinModel;
     }
 
+    getCoordsArr(window.pinscoords);
+
     return elements;
+  };
+
+  /**
+   * Преобразует массив объектов с координатами в объект объектов
+   * @param { {x: Number, y: Number}[] } coords
+   * @return { {x: Number, y: Number} }
+   */
+  var getCoordsArr = function (coords) {
+    var coordsObj = {};
+
+    for (var i = 0; i < coords.length; i++) {
+      coordsObj['' + i] = coords[i];
+    }
+
+    return coordsObj;
+  };
+
+  /**
+   * @param { {author: string,
+   *           offer: string,
+   *           location: Object[]} } element
+   * @return { {x: Number, y: Number} }
+   */
+  var getLoadedCoordsList = function (element) {
+    return {
+      x: element.location.x,
+      y: element.location.y
+    };
   };
 
   /**
@@ -38,22 +70,45 @@
     }
 
     window.selectors.mapPins.appendChild(nodesFragment);
-    window.selectors.mapPins.onclick = function (evt) {
-      if ((evt.target.tagName === 'IMG') && (evt.target.height === 40)) {
-        if (!window.selectors.mapPins.contains(document.querySelector('.map__card'))) {
-          var index = extractNumFromSrc(evt.target.attributes.src.value);
-          // console.log(index);
-          // window.keksobooking.card.fillInCardData(window.keksobooking.card.renderCard(), extractNumFromSrc(evt.target.attributes.src.value));
-          window.keksobooking.card.fillInCardData(window.keksobooking.card.renderCard(), index - 1);
-        }
-      }
-    };
+    window.selectors.mapPins.addEventListener('click', onPinClick);
   };
 
-  var extractNumFromSrc = function (str) {
-    var target = parseInt(str.substr(16), 10);
+  /**
+   * @param {MouseEvent} evt
+   */
+  var onPinClick = function (evt) {
+    if ((evt.target.tagName === 'IMG') && (evt.target.height === 40)) {
+      if (!window.selectors.mapPins.contains(document.querySelector('.map__card'))) {
+        window.x = evt.target.offsetParent.offsetLeft + PIN_WIDTH / 2;
+        window.y = evt.target.offsetParent.offsetTop + PIN_HEIGHT;
 
-    return target;
+        window.keksobooking.card.fillInCardData(window.keksobooking.card.renderCard(), indexReturn(getCoordsArr(window.pinscoords)));
+      }
+    }
+  };
+
+  /**
+   * Возвращает индекс элемента по которому производится клик
+   * @param { {x: Number, y: Number} } locations
+   * @return {Number}
+   */
+  var indexReturn = function (locations) {
+    var index;
+    var currentPinsNumber = 0;
+
+    for (var j in locations) {
+      if (locations[j].x) {
+        currentPinsNumber++;
+      }
+    }
+
+    for (var i = 0; i < currentPinsNumber; i++) {
+      if ((locations[i].x === window.x) && (locations[i].y === window.y)) {
+        index = i;
+      }
+    }
+
+    return index;
   };
 
   var cleanUpMap = function () {
@@ -67,6 +122,9 @@
   window.keksobooking.data = {
     cleanUpMap: cleanUpMap,
     renderElements: renderElements,
-    createDomElements: createDomElements
+    createDomElements: createDomElements,
+    getCoordsArr: getCoordsArr,
+    onPinClick: onPinClick,
+    indexReturn: indexReturn
   };
 })();
