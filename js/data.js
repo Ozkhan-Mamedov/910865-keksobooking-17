@@ -62,12 +62,18 @@
   var onPinClick = function (evt) {
     if ((evt.target.tagName === 'IMG') && (evt.target.height === 40)) {
       if (!window.selectors.mapPins.contains(document.querySelector('.map__card'))) {
-        window.x = evt.target.offsetParent.offsetLeft + PIN_WIDTH / 2;
-        window.y = evt.target.offsetParent.offsetTop + PIN_HEIGHT;
-        var currentPinIndex = returnIndex(window.pinscoords);
+        window.keksobooking.util.updateClickCoords(evt);
+        window.currentPinIndex = returnIndex(window.pinscoords);
         var cardModel = window.keksobooking.card.generateCardModel();
 
-        window.keksobooking.card.fillInCardData(cardModel, currentPinIndex);
+        window.keksobooking.card.fillInCardData(cardModel, window.currentPinIndex);
+      } else {
+        window.keksobooking.util.updateClickCoords(evt);
+        var newPinIndex = returnIndex(window.pinscoords);
+        var newCardModel = window.keksobooking.card.generateCardModel();
+
+        window.selectors.mapPins.removeChild(document.querySelector('.popup'));
+        window.keksobooking.card.fillInCardData(newCardModel, newPinIndex);
       }
     }
   };

@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var PIN_WIDTH = 50;
+  var PIN_HEIGHT = 70;
   var MIN_NUMBER_X = 0;
   var MAX_NUMBER_Y = 630;
   var MIN_NUMBER_Y = 130;
@@ -65,6 +67,11 @@
     mainBlock.appendChild(errorBlock);
   };
 
+  var updateClickCoords = function (evt) {
+    window.x = evt.target.offsetParent.offsetLeft + PIN_WIDTH / 2;
+    window.y = evt.target.offsetParent.offsetTop + PIN_HEIGHT;
+  };
+
   window.keksobooking.util = {
     MIN_NUMBER_X: MIN_NUMBER_X,
     MIN_NUMBER_Y: MIN_NUMBER_Y,
@@ -73,6 +80,7 @@
     copyElements: copyElements,
     formatCoords: formatCoords,
     getCoords: getCoords,
-    generateErrorMessage: generateErrorMessage
+    generateErrorMessage: generateErrorMessage,
+    updateClickCoords: updateClickCoords
   };
 })();
