@@ -2,6 +2,7 @@
 
 (function () {
   var URL_GET = 'https://js.dump.academy/keksobooking/data';
+  var URL_POST = 'https://js.dump.academy/keksobooking';
   var STATUS_OK = 200;
 
   /**
@@ -27,7 +28,42 @@
     return xhr;
   };
 
+  /**
+   * Функция отправки данных
+   * @param {?} data
+   * @param {function} onSuccess
+   * @param {function} onError
+   */
+  var upload = function (data, onSuccess, onError) {
+    var xhr = new XMLHttpRequest();
+
+    xhr.responceType = 'json';
+    xhr.addEventListener('load', function () {
+      if (xhr.status === STATUS_OK) {
+        // если данные отправлены успешно
+        window.keksobooking.pagesetup.disablePage();
+        // вставить в disablepage
+        if (window.selectors.mapPins.contains(document.querySelector('.popup'))) {
+          window.selectors.mapPins.removeChild(document.querySelector('.popup'));
+        }
+        for (var i = 0; i < document.querySelectorAll('.map__filter').length; i++) {
+          if (document.querySelectorAll('.map__filter')[i].value !== 'any') {
+            document.querySelectorAll('.map__filter')[i].value = 'any';
+          }
+        }
+        for (var j = 0; j < document.querySelectorAll('.map__checkbox').length; j++) {
+          document.querySelectorAll('.map__checkbox')[j].checked = false;
+        }
+      } else {
+        onError('Cтатус ответа: ' + xhr.status + ' ' + xhr.statusText);
+      }
+    });
+    xhr.open('POST', URL_POST);
+    xhr.send(data);
+  };
+
   window.keksobooking.backend = {
-    load: load
+    load: load,
+    upload: upload
   };
 })();

@@ -26,24 +26,7 @@
       elements[i] = pinModel;
     }
 
-    getCoordsArr(window.pinscoords);
-
     return elements;
-  };
-
-  /**
-   * Преобразует массив объектов с координатами в объект объектов
-   * @param { {x: Number, y: Number}[] } coords
-   * @return { {x: Number, y: Number} }
-   */
-  var getCoordsArr = function (coords) {
-    var coordsObj = {};
-
-    for (var i = 0; i < coords.length; i++) {
-      coordsObj['' + i] = coords[i];
-    }
-
-    return coordsObj;
   };
 
   /**
@@ -81,8 +64,10 @@
       if (!window.selectors.mapPins.contains(document.querySelector('.map__card'))) {
         window.x = evt.target.offsetParent.offsetLeft + PIN_WIDTH / 2;
         window.y = evt.target.offsetParent.offsetTop + PIN_HEIGHT;
+        var currentPinIndex = returnIndex(window.pinscoords);
+        var cardModel = window.keksobooking.card.generateCardModel();
 
-        window.keksobooking.card.fillInCardData(window.keksobooking.card.renderCard(), indexReturn(getCoordsArr(window.pinscoords)));
+        window.keksobooking.card.fillInCardData(cardModel, currentPinIndex);
       }
     }
   };
@@ -92,19 +77,13 @@
    * @param { {x: Number, y: Number} } locations
    * @return {Number}
    */
-  var indexReturn = function (locations) {
+  var returnIndex = function (locations) {
     var index;
-    var currentPinsNumber = 0;
 
-    for (var j in locations) {
-      if (locations[j].x) {
-        currentPinsNumber++;
-      }
-    }
-
-    for (var i = 0; i < currentPinsNumber; i++) {
+    for (var i = 0; i < window.pinscoords.length; i++) {
       if ((locations[i].x === window.x) && (locations[i].y === window.y)) {
         index = i;
+        break;
       }
     }
 
@@ -123,8 +102,7 @@
     cleanUpMap: cleanUpMap,
     renderElements: renderElements,
     createDomElements: createDomElements,
-    getCoordsArr: getCoordsArr,
     onPinClick: onPinClick,
-    indexReturn: indexReturn
+    returnIndex: returnIndex
   };
 })();

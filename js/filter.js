@@ -19,22 +19,21 @@
     });
 
     /**
-     * @return {Number[]}
+     * @return {Number}
      */
     var getFilteredListIndex = function () {
       var pins = window.selectors.mapPins.querySelectorAll('.map__pin:not(.map__pin--main)');
       var indexes = [];
 
-      for (var h = 0; h < pins.length; h++) { // ?
-
+      for (var i = 0; i < pins.length; i++) { // ?
         for (var key in window.pinsIndex) {
-          if (window.pinsIndex[key] === window.pinsIndex[pins[h].attributes.style.nodeValue]) {
-            indexes.push(window.pinsIndex[pins[h].attributes.style.nodeValue]);
+          if (window.pinsIndex[key] === window.pinsIndex[pins[i].attributes.style.nodeValue]) {
+            indexes.push(window.pinsIndex[pins[i].attributes.style.nodeValue]);
           }
         }
       }
 
-      return indexes;
+      return indexes[window.keksobooking.data.returnIndex(window.pinscoords)];
     };
 
     window.keksobooking.data.cleanUpMap();
@@ -45,7 +44,8 @@
         if (!window.selectors.mapPins.contains(document.querySelector('.map__card'))) {
           window.x = evt.target.offsetParent.offsetLeft + PIN_WIDTH / 2;
           window.y = evt.target.offsetParent.offsetTop + PIN_HEIGHT;
-          window.keksobooking.card.fillInCardData(window.keksobooking.card.renderCard(), getFilteredListIndex()[window.keksobooking.data.indexReturn(window.keksobooking.data.getCoordsArr(window.pinscoords))]);
+
+          window.keksobooking.card.fillInCardData(window.keksobooking.card.generateCardModel(), getFilteredListIndex());
         }
       }
     });

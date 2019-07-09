@@ -50,7 +50,7 @@
   /**
    * @return {Node}
    */
-  var renderCard = function () {
+  var generateCardModel = function () {
     var cardModel = cardTemplate.cloneNode(true);
 
     window.selectors.mapPins.appendChild(cardModel);
@@ -110,7 +110,7 @@
   };
 
   window.keksobooking.card = {
-    renderCard: renderCard,
+    generateCardModel: generateCardModel,
     fillInCardData: fillInCardData
   };
 })();

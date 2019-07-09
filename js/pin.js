@@ -108,6 +108,7 @@
   var serverData = window.keksobooking.backend.load(onLoad, onError);
 
   window.keksobooking.pin = {
-    serverData: serverData
+    serverData: serverData,
+    onError: onError
   };
 })();

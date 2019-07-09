@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  var ESC_KEYCODE = 27;
   var accomodationPrice = {
     'bungalo': 0,
     'flat': 1000,
@@ -28,6 +29,27 @@
     targetTimeInput.value = timeInput.value;
   };
 
+  var onWindowClick = function () {
+    document.querySelector('main').removeChild(document.querySelector('.success'));
+    document.removeEventListener('click', onWindowClick);
+  };
+
+  var onEscPress = function (keyEvt) {
+    if (keyEvt.keyCode === ESC_KEYCODE) {
+      document.querySelector('main').removeChild(document.querySelector('.success'));
+      document.removeEventListener('click', onEscPress);
+    }
+  };
+
+  var onSuccess = function () {
+    var successTemplate = document.querySelector('#success').content.querySelector('.success');
+    var successBlock = successTemplate.cloneNode(true);
+
+    document.querySelector('main').appendChild(successBlock);
+    document.addEventListener('keydown', onEscPress);
+    document.addEventListener('click', onWindowClick);
+  };
+
   window.keksobooking.pagesetup.disablePage();
   livingTypeInput.addEventListener('change', function () {
     switch (livingTypeInput.value) {
@@ -53,6 +75,10 @@
   });
   departureTimeInput.addEventListener('change', function () {
     synchronizeTimeInputs(departureTimeInput, arrivalTimeInput);
+  });
+  document.querySelector('.ad-form').addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    window.keksobooking.backend.upload(new FormData(document.querySelector('.ad-form')), onSuccess, window.keksobooking.pin.onError);
   });
 })();
 
