@@ -2,8 +2,6 @@
 
 (function () {
   var PIN_NUM = 5;
-  var PIN_WIDTH = 50;
-  var PIN_HEIGHT = 70;
   var housingTypeFilter = document.querySelector('#housing-type');
 
   /**
