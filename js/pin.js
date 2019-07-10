@@ -105,6 +105,9 @@
     document.removeEventListener('keydown', onEscPress);
   };
 
+  /**
+   * @param {KeyboardEvent} keyEvt
+   */
   var onEscPress = function (keyEvt) {
     if (keyEvt.keyCode === ESC_KEYCODE) {
       document.querySelector('main').removeChild(document.querySelector('.error'));

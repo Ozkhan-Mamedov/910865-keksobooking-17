@@ -45,7 +45,6 @@
   };
 
   /**
-   * Функция получения массива с координатами
    * @param {String} expression строка вида ('* ; *')
    * @return { {x: Number,
    *            y: Number} }
@@ -56,9 +55,6 @@
     return extractNumber(coords);
   };
 
-  /**
-   * Функция создает блок с сообщением об шибке по шаблону
-   */
   var generateErrorMessage = function () {
     var errorTemplate = document.querySelector('#error').content.querySelector('.error');
     var errorBlock = errorTemplate.cloneNode(true);

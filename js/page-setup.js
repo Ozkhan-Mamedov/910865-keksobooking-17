@@ -56,6 +56,9 @@
     }
   };
 
+  /**
+   * @param {Number[]} selections массив индексов элементов к которым нужно применить disabled
+   */
   var setDisabledProperty = function (selections) {
     for (var i = 0; i < selections.length; i++) {
       guestNumberInput.children[selections[i]].setAttribute('disabled', '');

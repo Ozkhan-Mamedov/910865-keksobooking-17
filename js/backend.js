@@ -30,7 +30,7 @@
 
   /**
    * Функция отправки данных
-   * @param {?} data
+   * @param {Object} data
    * @param {function} onSuccess
    * @param {function} onError
    */

@@ -37,9 +37,6 @@
     }
   };
 
-  /**
-   * @param {HTMLInputElement} roomNumber
-   */
   var synchronizeGuestRoomInputs = function () {
     var selections = [];
 
