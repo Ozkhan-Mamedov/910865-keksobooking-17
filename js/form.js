@@ -12,6 +12,8 @@
   var priceInput = document.querySelector('input[name=price]');
   var arrivalTimeInput = document.querySelector('select[id=timein]');
   var departureTimeInput = document.querySelector('select[id=timeout]');
+  var roomNumberInput = document.querySelector('select[id=room_number]');
+  var guestNumberInput = document.querySelector('select[id=capacity]');
 
   /**
    * @param {Number} value значение атрибутов
@@ -29,12 +31,57 @@
     targetTimeInput.value = timeInput.value;
   };
 
+  var enableGuesNumberProperties = function () {
+    for (var i = 0; i < guestNumberInput.children.length; i++) {
+      guestNumberInput.children[i].removeAttribute('disabled');
+    }
+  };
+
+  /**
+   * @param {HTMLInputElement} roomNumber
+   */
+  var synchronizeGuestRoomInputs = function () {
+    var selections = [];
+
+    switch (roomNumberInput.value) {
+      case '1':
+        selections = [0, 1, 3];
+        enableGuesNumberProperties();
+        window.keksobooking.pagesetup.setDisabledProperty(selections);
+        guestNumberInput.selectedIndex = 2;
+        break;
+
+      case '2':
+        selections = [0, 3];
+        enableGuesNumberProperties();
+        window.keksobooking.pagesetup.setDisabledProperty(selections);
+        guestNumberInput.selectedIndex = 1;
+        break;
+
+      case '3':
+        enableGuesNumberProperties();
+        guestNumberInput.children[3].setAttribute('disabled', '');
+        guestNumberInput.selectedIndex = 0;
+        break;
+
+      case '100':
+        selections = [0, 1, 2];
+        enableGuesNumberProperties();
+        window.keksobooking.pagesetup.setDisabledProperty(selections);
+        guestNumberInput.selectedIndex = 3;
+        break;
+    }
+  };
+
   var onWindowClick = function () {
     document.querySelector('main').removeChild(document.querySelector('.success'));
     document.removeEventListener('click', onWindowClick);
     document.removeEventListener('keydown', onEscPress);
   };
 
+  /**
+   * @param {KeyboardEvent} keyEvt
+   */
   var onEscPress = function (keyEvt) {
     if (keyEvt.keyCode === ESC_KEYCODE) {
       document.querySelector('main').removeChild(document.querySelector('.success'));
@@ -77,6 +124,9 @@
   });
   departureTimeInput.addEventListener('change', function () {
     synchronizeTimeInputs(departureTimeInput, arrivalTimeInput);
+  });
+  roomNumberInput.addEventListener('change', function () {
+    synchronizeGuestRoomInputs();
   });
   document.querySelector('.ad-form').addEventListener('submit', function (evt) {
     evt.preventDefault();

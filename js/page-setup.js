@@ -9,6 +9,8 @@
   var filters = document.querySelectorAll('.map__filters');
   var fieldsets = document.querySelectorAll('.ad-form__element');
   var fieldsetsModified = window.keksobooking.util.copyElements(fieldsets);
+  var guestNumberInput = document.querySelector('select[id=capacity]');
+  var options = [0, 1, 3];
 
   var disablePage = function () {
     if (window.selectors.mapPins.contains(document.querySelector('.popup'))) {
@@ -20,6 +22,8 @@
     window.selectors.mainPin.style = 'left: 570px; top: 375px;';
     window.keksobooking.data.cleanUpMap();
     window.isActivated = false;
+    setDisabledProperty(options);
+    guestNumberInput.selectedIndex = 2;
     disableElements(fieldsetsModified);
     disableElements(filters);
   };
@@ -52,10 +56,17 @@
     }
   };
 
+  var setDisabledProperty = function (selections) {
+    for (var i = 0; i < selections.length; i++) {
+      guestNumberInput.children[selections[i]].setAttribute('disabled', '');
+    }
+  };
+
   fieldsetsModified.push(document.querySelector('.ad-form-header'));
 
   window.keksobooking.pagesetup = {
     enablePage: enablePage,
-    disablePage: disablePage
+    disablePage: disablePage,
+    setDisabledProperty: setDisabledProperty
   };
 })();
