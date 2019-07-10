@@ -36,13 +36,16 @@
    */
   var upload = function (data, onSuccess, onError) {
     var xhr = new XMLHttpRequest();
+    var form = document.querySelector('.ad-form');
 
     xhr.responceType = 'json';
     xhr.addEventListener('load', function () {
       if (xhr.status === STATUS_OK) {
-        // если данные отправлены успешно
         window.keksobooking.pagesetup.disablePage();
-        // вставить в disablepage
+        onSuccess();
+        form.reset();
+
+        // вставить в disablePage()?
         if (window.selectors.mapPins.contains(document.querySelector('.popup'))) {
           window.selectors.mapPins.removeChild(document.querySelector('.popup'));
         }

@@ -11,6 +11,9 @@
   var fieldsetsModified = window.keksobooking.util.copyElements(fieldsets);
 
   var disablePage = function () {
+    if (window.selectors.mapPins.contains(document.querySelector('.popup'))) {
+      window.selectors.mapPins.removeChild(document.querySelector('.popup'));
+    }
     window.selectors.map.classList.add('map--faded');
     window.selectors.form.classList.add('ad-form--disabled');
     window.selectors.addressInput.setAttribute('value', window.keksobooking.util.formatCoords(INITIAL_MAIN_PIN_COORDS));

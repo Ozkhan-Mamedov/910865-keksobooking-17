@@ -32,12 +32,14 @@
   var onWindowClick = function () {
     document.querySelector('main').removeChild(document.querySelector('.success'));
     document.removeEventListener('click', onWindowClick);
+    document.removeEventListener('keydown', onEscPress);
   };
 
   var onEscPress = function (keyEvt) {
     if (keyEvt.keyCode === ESC_KEYCODE) {
       document.querySelector('main').removeChild(document.querySelector('.success'));
-      document.removeEventListener('click', onEscPress);
+      document.removeEventListener('keydown', onEscPress);
+      document.removeEventListener('click', onWindowClick);
     }
   };
 
