@@ -68,6 +68,12 @@
     window.y = evt.target.offsetParent.offsetTop + PIN_HEIGHT;
   };
 
+  var closePopup = function () {
+    if (window.selectors.mapPins.contains(document.querySelector('.popup'))) {
+      window.selectors.mapPins.removeChild(document.querySelector('.popup'));
+    }
+  };
+
   window.keksobooking.util = {
     MIN_NUMBER_X: MIN_NUMBER_X,
     MIN_NUMBER_Y: MIN_NUMBER_Y,
@@ -77,6 +83,7 @@
     formatCoords: formatCoords,
     getCoords: getCoords,
     generateErrorMessage: generateErrorMessage,
-    updateClickCoords: updateClickCoords
+    updateClickCoords: updateClickCoords,
+    closePopup: closePopup
   };
 })();

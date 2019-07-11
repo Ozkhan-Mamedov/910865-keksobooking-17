@@ -44,11 +44,7 @@
         window.keksobooking.pagesetup.disablePage();
         onSuccess();
         form.reset();
-
-        // вставить в disablePage()?
-        if (window.selectors.mapPins.contains(document.querySelector('.popup'))) {
-          window.selectors.mapPins.removeChild(document.querySelector('.popup'));
-        }
+        window.keksobooking.util.closePopup();
         for (var i = 0; i < document.querySelectorAll('.map__filter').length; i++) {
           if (document.querySelectorAll('.map__filter')[i].value !== 'any') {
             document.querySelectorAll('.map__filter')[i].value = 'any';
