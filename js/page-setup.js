@@ -9,16 +9,23 @@
   var filters = document.querySelectorAll('.map__filters');
   var fieldsets = document.querySelectorAll('.ad-form__element');
   var fieldsetsModified = window.keksobooking.util.copyElements(fieldsets);
+  var guestNumberInput = document.querySelector('select[id=capacity]');
+  var priceInput = document.querySelector('#price');
+  var options = [0, 1, 3];
 
   var disablePage = function () {
+    window.keksobooking.util.closePopup();
+    enableGuestNumberProperties();
     window.selectors.map.classList.add('map--faded');
     window.selectors.form.classList.add('ad-form--disabled');
     window.selectors.addressInput.setAttribute('value', window.keksobooking.util.formatCoords(INITIAL_MAIN_PIN_COORDS));
     window.selectors.mainPin.style = 'left: 570px; top: 375px;';
     window.keksobooking.data.cleanUpMap();
     window.isActivated = false;
+    setDisabledProperty(options);
     disableElements(fieldsetsModified);
     disableElements(filters);
+    priceInput.placeholder = 1000;
   };
 
   var enablePage = function () {
@@ -49,10 +56,27 @@
     }
   };
 
+  /**
+   * @param {Number[]} selections массив индексов элементов к которым нужно применить disabled
+   */
+  var setDisabledProperty = function (selections) {
+    for (var i = 0; i < selections.length; i++) {
+      guestNumberInput.children[selections[i]].setAttribute('disabled', '');
+    }
+  };
+
+  var enableGuestNumberProperties = function () {
+    for (var i = 0; i < guestNumberInput.children.length; i++) {
+      guestNumberInput.children[i].removeAttribute('disabled');
+    }
+  };
+
   fieldsetsModified.push(document.querySelector('.ad-form-header'));
 
   window.keksobooking.pagesetup = {
     enablePage: enablePage,
-    disablePage: disablePage
+    disablePage: disablePage,
+    setDisabledProperty: setDisabledProperty,
+    enableGuestNumberProperties: enableGuestNumberProperties
   };
 })();

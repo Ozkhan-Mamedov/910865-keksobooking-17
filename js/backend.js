@@ -30,22 +30,21 @@
 
   /**
    * Функция отправки данных
-   * @param {?} data
+   * @param {Object} data
    * @param {function} onSuccess
    * @param {function} onError
    */
   var upload = function (data, onSuccess, onError) {
     var xhr = new XMLHttpRequest();
+    var form = document.querySelector('.ad-form');
 
     xhr.responceType = 'json';
     xhr.addEventListener('load', function () {
       if (xhr.status === STATUS_OK) {
-        // если данные отправлены успешно
         window.keksobooking.pagesetup.disablePage();
-        // вставить в disablepage
-        if (window.selectors.mapPins.contains(document.querySelector('.popup'))) {
-          window.selectors.mapPins.removeChild(document.querySelector('.popup'));
-        }
+        onSuccess();
+        form.reset();
+        window.keksobooking.util.closePopup();
         for (var i = 0; i < document.querySelectorAll('.map__filter').length; i++) {
           if (document.querySelectorAll('.map__filter')[i].value !== 'any') {
             document.querySelectorAll('.map__filter')[i].value = 'any';

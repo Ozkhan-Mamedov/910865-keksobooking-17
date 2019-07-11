@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  var ESC_KEYCODE = 27;
   var MAIN_PIN_WIDTH = 65;
   var MAIN_PIN_HEIGHT = 65;
   var PIN_NUM = 5;
@@ -98,11 +99,32 @@
     }
   };
 
+  var onWindowClick = function () {
+    document.querySelector('main').removeChild(document.querySelector('.error'));
+    document.removeEventListener('click', onWindowClick);
+    document.removeEventListener('keydown', onEscPress);
+  };
+
+  /**
+   * @param {KeyboardEvent} keyEvt
+   */
+  var onEscPress = function (keyEvt) {
+    if (keyEvt.keyCode === ESC_KEYCODE) {
+      document.querySelector('main').removeChild(document.querySelector('.error'));
+      document.removeEventListener('keydown', onEscPress);
+      document.removeEventListener('click', onWindowClick);
+    }
+  };
+
   /**
    * Обработчик ошибки
    */
   var onError = function () {
     util.generateErrorMessage();
+    var errorButton = document.querySelector('.error__button');
+    errorButton.addEventListener('click', onWindowClick);
+    document.addEventListener('keydown', onEscPress);
+    document.addEventListener('click', onWindowClick);
   };
 
   var serverData = window.keksobooking.backend.load(onLoad, onError);

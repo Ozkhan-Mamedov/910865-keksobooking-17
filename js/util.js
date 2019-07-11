@@ -45,7 +45,6 @@
   };
 
   /**
-   * Функция получения массива с координатами
    * @param {String} expression строка вида ('* ; *')
    * @return { {x: Number,
    *            y: Number} }
@@ -56,9 +55,6 @@
     return extractNumber(coords);
   };
 
-  /**
-   * Функция создает блок с сообщением об шибке по шаблону
-   */
   var generateErrorMessage = function () {
     var errorTemplate = document.querySelector('#error').content.querySelector('.error');
     var errorBlock = errorTemplate.cloneNode(true);
@@ -72,6 +68,12 @@
     window.y = evt.target.offsetParent.offsetTop + PIN_HEIGHT;
   };
 
+  var closePopup = function () {
+    if (window.selectors.mapPins.contains(document.querySelector('.popup'))) {
+      window.selectors.mapPins.removeChild(document.querySelector('.popup'));
+    }
+  };
+
   window.keksobooking.util = {
     MIN_NUMBER_X: MIN_NUMBER_X,
     MIN_NUMBER_Y: MIN_NUMBER_Y,
@@ -81,6 +83,7 @@
     formatCoords: formatCoords,
     getCoords: getCoords,
     generateErrorMessage: generateErrorMessage,
-    updateClickCoords: updateClickCoords
+    updateClickCoords: updateClickCoords,
+    closePopup: closePopup
   };
 })();

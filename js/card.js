@@ -7,7 +7,6 @@
 
   /**
    * @param {Number} index
-   * Функция отрисовывает изображения в карточке
    */
   var renderImages = function (index) {
     var images = serverData.response[index].offer.photos;
