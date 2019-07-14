@@ -28,8 +28,8 @@
 
   /**
    * Обработчик загрузки данных
-   * @param { {author: string,
-   *           offer: string,
+   * @param { {author: String,
+   *           offer: String,
    *           location: Object[]}[] } data
    */
   var onLoad = function (data) {
@@ -116,9 +116,6 @@
     }
   };
 
-  /**
-   * Обработчик ошибки
-   */
   var onError = function () {
     util.generateErrorMessage();
     var errorButton = document.querySelector('.error__button');

@@ -30,7 +30,17 @@
 
   /**
    * Функция отправки данных
-   * @param {Object} data
+   * @param { {files: String[],
+   *           title: String,
+   *           address: String,
+   *           type: String,
+   *           price: String,
+   *           timein: String,
+   *           timeout: String,
+   *           rooms: String,
+   *           capacity: String,
+   *           features: String[],
+   *           description: String} } data
    * @param {function} onSuccess
    * @param {function} onError
    */

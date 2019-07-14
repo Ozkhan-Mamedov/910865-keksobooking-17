@@ -15,7 +15,7 @@
 
   var disablePage = function () {
     window.keksobooking.util.closePopup();
-    enableGuestNumberProperties();
+    enableFieldProperties(guestNumberInput);
     window.selectors.map.classList.add('map--faded');
     window.selectors.form.classList.add('ad-form--disabled');
     window.selectors.addressInput.setAttribute('value', window.keksobooking.util.formatCoords(INITIAL_MAIN_PIN_COORDS));
@@ -65,9 +65,12 @@
     }
   };
 
-  var enableGuestNumberProperties = function () {
-    for (var i = 0; i < guestNumberInput.children.length; i++) {
-      guestNumberInput.children[i].removeAttribute('disabled');
+  /**
+   * @param {Element} inputField
+   */
+  var enableFieldProperties = function (inputField) {
+    for (var i = 0; i < inputField.children.length; i++) {
+      inputField.children[i].removeAttribute('disabled');
     }
   };
 
@@ -77,6 +80,6 @@
     enablePage: enablePage,
     disablePage: disablePage,
     setDisabledProperty: setDisabledProperty,
-    enableGuestNumberProperties: enableGuestNumberProperties
+    enableFieldProperties: enableFieldProperties
   };
 })();
