@@ -94,6 +94,8 @@
     cardModel.querySelector('.popup__avatar').src = serverData.response[index].author.avatar;
     document.querySelector('.popup__close').addEventListener('click', function () {
       window.selectors.mapPins.removeChild(document.querySelector('.popup'));
+      window.currentPinIndex = window.keksobooking.data.returnIndex(window.pinscoords);
+      window.keksobooking.data.removeActiveClass(window.currentPinIndex);
     });
     document.addEventListener('keydown', onEscPress);
   };

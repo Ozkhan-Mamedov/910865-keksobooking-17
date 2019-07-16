@@ -64,18 +64,36 @@
       if (!window.selectors.mapPins.contains(document.querySelector('.map__card'))) {
         window.keksobooking.util.updateClickCoords(evt);
         window.currentPinIndex = returnIndex(window.pinscoords);
+        setActiveClass(window.currentPinIndex);
         var cardModel = window.keksobooking.card.generateCardModel();
 
         window.keksobooking.card.fillInCardData(cardModel, window.currentPinIndex);
       } else {
         window.keksobooking.util.updateClickCoords(evt);
+        removeActiveClass(window.currentPinIndex);
+        window.currentPinIndex = returnIndex(window.pinscoords);
         var newPinIndex = returnIndex(window.pinscoords);
+        setActiveClass(newPinIndex);
         var newCardModel = window.keksobooking.card.generateCardModel();
 
         window.selectors.mapPins.removeChild(document.querySelector('.popup'));
         window.keksobooking.card.fillInCardData(newCardModel, newPinIndex);
       }
     }
+  };
+
+  /**
+   * @param {Number} index
+   */
+  var setActiveClass = function (index) {
+    window.selectors.getPins()[index].classList.add('map__pin--active');
+  };
+
+  /**
+   * @param {Number} index
+   */
+  var removeActiveClass = function (index) {
+    window.selectors.getPins()[index].classList.remove('map__pin--active');
   };
 
   /**
@@ -109,6 +127,8 @@
     renderElements: renderElements,
     createDomElements: createDomElements,
     onPinClick: onPinClick,
-    returnIndex: returnIndex
+    returnIndex: returnIndex,
+    setActiveClass: setActiveClass,
+    removeActiveClass: removeActiveClass
   };
 })();

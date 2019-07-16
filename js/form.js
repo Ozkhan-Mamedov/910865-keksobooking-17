@@ -38,27 +38,27 @@
     switch (roomNumberInput.value) {
       case '1':
         selections = [0, 1, 3];
-        window.keksobooking.pagesetup.enableGuestNumberProperties();
+        window.keksobooking.pagesetup.enableFieldProperties(guestNumberInput);
         window.keksobooking.pagesetup.setDisabledProperty(selections);
         guestNumberInput.selectedIndex = 2;
         break;
 
       case '2':
         selections = [0, 3];
-        window.keksobooking.pagesetup.enableGuestNumberProperties();
+        window.keksobooking.pagesetup.enableFieldProperties(guestNumberInput);
         window.keksobooking.pagesetup.setDisabledProperty(selections);
         guestNumberInput.selectedIndex = 1;
         break;
 
       case '3':
-        window.keksobooking.pagesetup.enableGuestNumberProperties();
+        window.keksobooking.pagesetup.enableFieldProperties(guestNumberInput);
         guestNumberInput.children[3].setAttribute('disabled', '');
         guestNumberInput.selectedIndex = 0;
         break;
 
       case '100':
         selections = [0, 1, 2];
-        window.keksobooking.pagesetup.enableGuestNumberProperties();
+        window.keksobooking.pagesetup.enableFieldProperties(guestNumberInput);
         window.keksobooking.pagesetup.setDisabledProperty(selections);
         guestNumberInput.selectedIndex = 3;
         break;
@@ -123,7 +123,7 @@
   resetButton.addEventListener('click', function () {
     var selections = [0, 1, 3];
 
-    window.keksobooking.pagesetup.enableGuestNumberProperties();
+    window.keksobooking.pagesetup.enableFieldProperties(guestNumberInput);
     window.keksobooking.pagesetup.setDisabledProperty(selections);
   });
   document.querySelector('.ad-form').addEventListener('submit', function (evt) {
