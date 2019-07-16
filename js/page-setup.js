@@ -6,7 +6,8 @@
     x: 570,
     y: 375
   };
-  var filters = document.querySelectorAll('.map__filters');
+  var filters = document.querySelectorAll('.map__filter');
+  var checkboxfilters = document.querySelectorAll('.map__checkbox');
   var fieldsets = document.querySelectorAll('.ad-form__element');
   var fieldsetsModified = window.keksobooking.util.copyElements(fieldsets);
   var guestNumberInput = document.querySelector('select[id=capacity]');
@@ -25,6 +26,7 @@
     setDisabledProperty(options);
     disableElements(fieldsetsModified);
     disableElements(filters);
+    disableElements(checkboxfilters);
     priceInput.placeholder = 1000;
   };
 
@@ -34,6 +36,7 @@
     window.keksobooking.data.renderElements(window.pins.slice(0, PIN_NUM));
     enableElements(fieldsetsModified);
     enableElements(filters);
+    enableElements(checkboxfilters);
   };
 
   /**
