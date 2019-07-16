@@ -43,12 +43,20 @@
     return document.querySelector('#pin').content.querySelector('.map__pin');
   };
 
+  /**
+   * @return {NodeListOf<Element>}
+   */
+  var getPins = function () {
+    return document.querySelectorAll('.map__pin:not(.map__pin--main)');
+  };
+
   window.selectors = {
     mapPins: getMapPins(),
     mainPin: getMainPin(),
     map: getMapElement(),
     addressInput: getAddressInput(),
     form: getFormElement(),
-    pinTemplate: getPinTemplate()
+    pinTemplate: getPinTemplate(),
+    getPins: getPins
   };
 })();

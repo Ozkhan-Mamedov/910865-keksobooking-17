@@ -145,10 +145,18 @@
         if (!window.selectors.mapPins.contains(document.querySelector('.map__card'))) {
           window.keksobooking.util.updateClickCoords(evt);
           window.keksobooking.card.fillInCardData(window.keksobooking.card.generateCardModel(), getFilteredListIndex());
+          window.currentPinIndex = window.keksobooking.data.returnIndex(window.pinscoords);
+          window.keksobooking.data.setActiveClass(window.currentPinIndex);
         } else {
           var newCardModel = window.keksobooking.card.generateCardModel();
 
+          window.currentPinIndex = window.keksobooking.data.returnIndex(window.pinscoords);
+          window.keksobooking.data.removeActiveClass(window.currentPinIndex);
           window.keksobooking.util.updateClickCoords(evt);
+
+          var newPinIndex = window.keksobooking.data.returnIndex(window.pinscoords);
+
+          window.keksobooking.data.setActiveClass(newPinIndex);
           window.selectors.mapPins.removeChild(document.querySelector('.popup'));
           window.keksobooking.card.fillInCardData(newCardModel, getFilteredListIndex());
         }
