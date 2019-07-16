@@ -22,10 +22,10 @@
    */
   var updatePins = function () {
     /**
-     * @param { {author: String,
-     *           offer: String,
+     * @param { {author: {avatar: String},
+     *           offer: {type: String},
      *           location: {x: Number, y: Number}} } it
-     * @return {boolean|*}
+     * @return {String|boolean}
      */
     var getTypeFilterChange = function (it) {
       if (housingTypeFilter.value === 'any') {
@@ -36,10 +36,10 @@
     };
 
     /**
-     * @param { {author: String,
-     *           offer: String,
+     * @param { {author: {avatar: String},
+     *           offer: {price: Number},
      *           location: {x: Number, y: Number}} } it
-     * @return {Document.price|String|boolean}
+     * @return {boolean|Number}
      */
     var getPriceFilterChange = function (it) {
       if (housingPriceFilter.value === 'any') {
@@ -62,10 +62,10 @@
     };
 
     /**
-     * @param { {author: String,
-     *           offer: String,
+     * @param { {author: {avatar: String},
+     *           offer: {rooms: Number},
      *           location: {x: Number, y: Number}} } it
-     * @return {Document.rooms|String|boolean}
+     * @return {boolean|Number}
      */
     var getRoomsFilterChange = function (it) {
       if (housingRoomsFilter.value === 'any') {
@@ -76,10 +76,10 @@
     };
 
     /**
-     * @param { {author: String,
-     *           offer: String,
+     * @param { {author: {avatar: String},
+     *           offer: {guests: Number},
      *           location: {x: Number, y: Number}} } it
-     * @return {boolean|*}
+     * @return {boolean|Number}
      */
     var getGuestsFilterChange = function (it) {
       if (housingGuestsFilter.value === 'any') {
@@ -94,7 +94,7 @@
     };
 
     /**
-     * @param {Element} feature
+     * @param {HTMLInputElement} feature
      * @param {String} name
      * @return {Function}
      */
@@ -127,6 +127,7 @@
     };
 
     window.keksobooking.data.cleanUpMap();
+    window.keksobooking.util.closePopup();
     var filteredpins = window.keksobooking.pin.serverData.response.filter(getTypeFilterChange)
       .filter(getPriceFilterChange)
       .filter(getRoomsFilterChange)
