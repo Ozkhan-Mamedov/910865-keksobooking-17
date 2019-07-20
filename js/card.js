@@ -3,13 +3,12 @@
 (function () {
   var ESC_KEYCODE = 27;
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
-  var serverData = window.keksobooking.pin.serverData;
 
   /**
-   * @param {Number} index
+   * @param { {offer: {photos: String[]}} } adObject
    */
-  var renderImages = function (index) {
-    var images = serverData.response[index].offer.photos;
+  var renderImages = function (adObject) {
+    var images = adObject.offer.photos;
     var imgTemplate = cardTemplate.querySelector('.popup__photo');
     var nodes = document.createDocumentFragment();
     var imgContainer = document.querySelector('.popup__photos');
@@ -34,15 +33,18 @@
     document.querySelector('.popup__feature--' + feature).style = 'display: inline-block';
   };
 
-  var renderFeature = function (index) {
+  /**
+   * @param { {offer: {features: String[]}} } adObject
+   */
+  var renderFeature = function (adObject) {
     var features = document.querySelectorAll('.popup__feature');
 
     features.forEach(function (it) {
       it.style = 'display: none';
     });
 
-    for (var i = 0; i < serverData.response[index].offer.features.length; i++) {
-      setDisplayStyle(serverData.response[index].offer.features[i]);
+    for (var i = 0; i < adObject.offer.features.length; i++) {
+      setDisplayStyle(adObject.offer.features[i]);
     }
   };
 
@@ -59,12 +61,17 @@
 
   /**
    * @param {HTMLElement} cardModel
-   * @param {Number} index
+   * @param { {author: {avatar: String},
+     *         offer: {guests: Number, type: String, title: String,
+     *                 address: String, price: Number, rooms: Number,
+     *                 guests: Number, checkin: String, checkout: String,
+     *                 features: String[], photos: String[], description: String},
+     *         location: {x: Number, y: Number}} } adObject
    */
-  var fillInCardData = function (cardModel, index) {
+  var fillInCardData = function (cardModel, adObject) {
     var offerType = '';
 
-    switch (serverData.response[index].offer.type) {
+    switch (adObject.offer.type) {
       case 'flat':
         offerType = 'Квартира';
         break;
@@ -82,16 +89,16 @@
         break;
     }
 
-    cardModel.querySelector('.popup__title').textContent = serverData.response[index].offer.title;
-    cardModel.querySelector('.popup__text--address').textContent = serverData.response[index].offer.address;
-    cardModel.querySelector('.popup__text--price').textContent = serverData.response[index].offer.price + '₽/ночь';
+    cardModel.querySelector('.popup__title').textContent = adObject.offer.title;
+    cardModel.querySelector('.popup__text--address').textContent = adObject.offer.address;
+    cardModel.querySelector('.popup__text--price').textContent = adObject.offer.price + '₽/ночь';
     cardModel.querySelector('.popup__type').textContent = offerType;
-    cardModel.querySelector('.popup__text--capacity').textContent = serverData.response[index].offer.rooms + ' комнаты для ' + serverData.response[index].offer.guests + ' гостей';
-    cardModel.querySelector('.popup__text--time').textContent = 'Заезд после ' + serverData.response[index].offer.checkin + ', ' + 'выезд до ' + serverData.response[index].offer.checkout;
-    renderFeature(index);
-    cardModel.querySelector('.popup__description').textContent = serverData.response[index].offer.description;
-    cardModel.querySelector('.popup__photos').src = renderImages(index);
-    cardModel.querySelector('.popup__avatar').src = serverData.response[index].author.avatar;
+    cardModel.querySelector('.popup__text--capacity').textContent = adObject.offer.rooms + ' комнаты для ' + adObject.offer.guests + ' гостей';
+    cardModel.querySelector('.popup__text--time').textContent = 'Заезд после ' + adObject.offer.checkin + ', ' + 'выезд до ' + adObject.offer.checkout;
+    renderFeature(adObject);
+    cardModel.querySelector('.popup__description').textContent = adObject.offer.description;
+    cardModel.querySelector('.popup__photos').src = renderImages(adObject);
+    cardModel.querySelector('.popup__avatar').src = adObject.author.avatar;
     document.querySelector('.popup__close').addEventListener('click', function () {
       window.selectors.mapPins.removeChild(document.querySelector('.popup'));
       window.currentPinIndex = window.keksobooking.data.returnIndex(window.pinscoords);
