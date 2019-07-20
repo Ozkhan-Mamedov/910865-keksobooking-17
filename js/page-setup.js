@@ -7,6 +7,7 @@
     y: 375
   };
   var filters = document.querySelectorAll('.map__filter');
+  var filterForm = document.querySelector('.map__filters');
   var checkboxfilters = document.querySelectorAll('.map__checkbox');
   var fieldsets = document.querySelectorAll('.ad-form__element');
   var fieldsetsModified = window.keksobooking.util.copyElements(fieldsets);
@@ -27,12 +28,16 @@
     disableElements(fieldsetsModified);
     disableElements(filters);
     disableElements(checkboxfilters);
+    filterForm.reset();
     priceInput.placeholder = 1000;
   };
 
   var enablePage = function () {
     window.selectors.map.classList.remove('map--faded');
     window.selectors.form.classList.remove('ad-form--disabled');
+    for (var i = 0; i < window.selectors.getPins().length; i++) {
+      window.selectors.getPins()[i].classList.remove('map__pin--active');
+    }
     window.keksobooking.data.renderElements(window.pins.slice(0, PIN_NUM));
     enableElements(fieldsetsModified);
     enableElements(filters);

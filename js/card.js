@@ -113,6 +113,7 @@
   var onEscPress = function (keyEvt) {
     if (keyEvt.keyCode === ESC_KEYCODE) {
       window.selectors.mapPins.removeChild(document.querySelector('.popup'));
+      window.keksobooking.data.removeActiveClass(window.currentPinIndex);
       document.removeEventListener('keydown', onEscPress);
     }
   };
