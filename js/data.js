@@ -67,7 +67,7 @@
         setActiveClass(window.currentPinIndex);
         var cardModel = window.keksobooking.card.generateCardModel();
 
-        window.keksobooking.card.fillInCardData(cardModel, window.currentPinIndex);
+        window.keksobooking.card.fillInCardData(cardModel, window.keksobooking.pin.serverData.response[window.currentPinIndex]);
       } else {
         window.keksobooking.util.updateClickCoords(evt);
         removeActiveClass(window.currentPinIndex);
@@ -77,7 +77,7 @@
         var newCardModel = window.keksobooking.card.generateCardModel();
 
         window.selectors.mapPins.removeChild(document.querySelector('.popup'));
-        window.keksobooking.card.fillInCardData(newCardModel, newPinIndex);
+        window.keksobooking.card.fillInCardData(newCardModel, window.keksobooking.pin.serverData.response[newPinIndex]);
       }
     }
   };

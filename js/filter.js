@@ -144,7 +144,7 @@
       if ((evt.target.tagName === 'IMG') && (evt.target.height === PIN_IMG_HEIGHT)) {
         if (!window.selectors.mapPins.contains(document.querySelector('.map__card'))) {
           window.keksobooking.util.updateClickCoords(evt);
-          window.keksobooking.card.fillInCardData(window.keksobooking.card.generateCardModel(), getFilteredListIndex());
+          window.keksobooking.card.fillInCardData(window.keksobooking.card.generateCardModel(), window.keksobooking.pin.serverData.response[getFilteredListIndex()]);
           window.currentPinIndex = window.keksobooking.data.returnIndex(window.pinscoords);
           window.keksobooking.data.setActiveClass(window.currentPinIndex);
         } else {
@@ -158,7 +158,7 @@
 
           window.keksobooking.data.setActiveClass(newPinIndex);
           window.selectors.mapPins.removeChild(document.querySelector('.popup'));
-          window.keksobooking.card.fillInCardData(newCardModel, getFilteredListIndex());
+          window.keksobooking.card.fillInCardData(newCardModel, window.keksobooking.pin.serverData.response[getFilteredListIndex()]);
         }
       }
     });
