@@ -1,4 +1,6 @@
 'use strict';
 
-window.keksobooking = {
-};
+(function () {
+  window.keksobooking = {
+  };
+})();

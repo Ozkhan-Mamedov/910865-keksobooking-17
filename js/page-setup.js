@@ -19,6 +19,7 @@
     window.keksobooking.util.closePopup();
     enableFieldProperties(guestNumberInput);
     window.selectors.map.classList.add('map--faded');
+    window.selectors.form.reset();
     window.selectors.form.classList.add('ad-form--disabled');
     window.selectors.addressInput.setAttribute('value', window.keksobooking.util.formatCoords(INITIAL_MAIN_PIN_COORDS));
     window.selectors.mainPin.style = 'left: 570px; top: 375px;';

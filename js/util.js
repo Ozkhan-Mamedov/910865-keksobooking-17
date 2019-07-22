@@ -14,13 +14,13 @@
    * @return {Element[]}
    */
   var copyElements = function (arr) {
-    var arrModified = [];
+    var elements = [];
 
     for (var i = 0; i < arr.length; i++) {
-      arrModified[i] = arr[i];
+      elements[i] = arr[i];
     }
 
-    return arrModified;
+    return elements;
   };
 
   /**
