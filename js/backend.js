@@ -46,15 +46,12 @@
    */
   var upload = function (data, onSuccess, onError) {
     var xhr = new XMLHttpRequest();
-    var form = document.querySelector('.ad-form');
 
     xhr.responceType = 'json';
     xhr.addEventListener('load', function () {
       if (xhr.status === STATUS_OK) {
         window.keksobooking.pagesetup.disablePage();
         onSuccess();
-        form.reset();
-        window.keksobooking.util.closePopup();
         for (var i = 0; i < document.querySelectorAll('.map__filter').length; i++) {
           if (document.querySelectorAll('.map__filter')[i].value !== 'any') {
             document.querySelectorAll('.map__filter')[i].value = 'any';
