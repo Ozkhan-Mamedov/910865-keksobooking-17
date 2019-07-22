@@ -125,6 +125,8 @@
 
     window.keksobooking.pagesetup.enableFieldProperties(guestNumberInput);
     window.keksobooking.pagesetup.setDisabledProperty(selections);
+    window.keksobooking.pagesetup.disablePage();
+    window.isReseted = true;
   });
   document.querySelector('.ad-form').addEventListener('submit', function (evt) {
     evt.preventDefault();

@@ -4,6 +4,9 @@
   var DEBOUNCE_INTERVAL = 500;
   var lastTimeout;
 
+  /**
+   * @param {Function} cb
+   */
   var debounce = function (cb) {
     if (lastTimeout) {
       window.clearTimeout(lastTimeout);

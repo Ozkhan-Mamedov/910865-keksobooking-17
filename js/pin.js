@@ -2,8 +2,8 @@
 
 (function () {
   var ESC_KEYCODE = 27;
+  var ENTER_KEYCODE = 13;
   var MAIN_PIN_WIDTH = 65;
-  var MAIN_PIN_HEIGHT = 65;
   var PIN_NUM = 5;
   var util = window.keksobooking.util;
   var mainPin = window.selectors.mainPin;
@@ -12,7 +12,7 @@
   /**
    * Создает объект, в котором для каждого пина создается "ключ" - его положение разметке, а значение - индекс
    * @param {HTMLElement} elements
-   * @return { {HTMLElement.attributes.style.nodeValue: Number} }
+   * @return { { HTMLElement.attributes.style.nodeValue: Number } }
    */
   var generateCoordsToIndexObject = function (elements) {
     var coordsToIndex = {};
@@ -28,9 +28,10 @@
 
   /**
    * Обработчик загрузки данных
-   * @param { {author: String,
-   *           offer: String,
-   *           location: Object[]}[] } data
+   * @param { { author: String,
+   *            offer: String,
+   *            location: Object[]
+   *          }[] } data
    */
   var onLoad = function (data) {
     window.pins = window.keksobooking.data.createDomElements(data, window.selectors.pinTemplate);
@@ -42,6 +43,7 @@
 
       window.selectors.addressInput.setAttribute('value', util.formatCoords(pinCoords));
     });
+    mainPin.addEventListener('keydown', onMainPinPress);
     mainPin.addEventListener('mousedown', function (evt) {
       window.startCoords = {
         x: evt.clientX,
@@ -91,8 +93,8 @@
     if (mainPin.offsetLeft > util.MAX_NUMBER_X - MAIN_PIN_WIDTH / 2) {
       mainPin.style.left = util.MAX_NUMBER_X - MAIN_PIN_WIDTH / 2 + 'px';
     }
-    if (mainPin.offsetTop < util.MIN_NUMBER_Y - MAIN_PIN_HEIGHT) {
-      mainPin.style.top = util.MIN_NUMBER_Y - MAIN_PIN_HEIGHT + 'px';
+    if (mainPin.offsetTop < util.MIN_NUMBER_Y) {
+      mainPin.style.top = util.MIN_NUMBER_Y + 'px';
     }
     if (mainPin.offsetTop > util.MAX_NUMBER_Y) {
       mainPin.style.top = util.MAX_NUMBER_Y + 'px';
@@ -122,6 +124,19 @@
     errorButton.addEventListener('click', onWindowClick);
     document.addEventListener('keydown', onEscPress);
     document.addEventListener('click', onWindowClick);
+  };
+
+  /**
+   * @param {KeyboardEvent} keyEvt
+   */
+  var onMainPinPress = function (keyEvt) {
+    if (keyEvt.keyCode === ENTER_KEYCODE) {
+      if (window.isActivated === false) {
+        window.isActivated = true;
+        window.keksobooking.pagesetup.enablePage();
+        window.keksobooking.data.renderElements(window.pins.slice(0, PIN_NUM));
+      }
+    }
   };
 
   var serverData = window.keksobooking.backend.load(onLoad, onError);
