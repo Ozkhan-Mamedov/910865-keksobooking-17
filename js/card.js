@@ -5,7 +5,7 @@
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 
   /**
-   * @param { {offer: {photos: String[]}} } adObject
+   * @param { { offer: { photos: String[] } } } adObject
    */
   var renderImages = function (adObject) {
     var images = adObject.offer.photos;
@@ -34,7 +34,7 @@
   };
 
   /**
-   * @param { {offer: {features: String[]}} } adObject
+   * @param { { offer: { features: String[] } } } adObject
    */
   var renderFeature = function (adObject) {
     var features = document.querySelectorAll('.popup__feature');
@@ -43,9 +43,9 @@
       it.style = 'display: none';
     });
 
-    for (var i = 0; i < adObject.offer.features.length; i++) {
-      setDisplayStyle(adObject.offer.features[i]);
-    }
+    adObject.offer.features.forEach(function (it) {
+      setDisplayStyle(it);
+    });
   };
 
   /**
@@ -61,12 +61,24 @@
 
   /**
    * @param {HTMLElement} cardModel
-   * @param { {author: {avatar: String},
-     *         offer: {guests: Number, type: String, title: String,
-     *                 address: String, price: Number, rooms: Number,
-     *                 guests: Number, checkin: String, checkout: String,
-     *                 features: String[], photos: String[], description: String},
-     *         location: {x: Number, y: Number}} } adObject
+   * @param { { author: { avatar: String },
+     *          offer: { guests: Number,
+     *                   type: String,
+     *                   title: String,
+     *                   address: String,
+     *                   price: Number,
+     *                   rooms: Number,
+     *                   guests: Number,
+     *                   checkin: String,
+     *                   checkout: String,
+     *                   features: String[],
+     *                   photos: String[],
+     *                   description: String
+     *                  },
+     *          location: { x: Number,
+     *                      y: Number
+     *                    }
+     *        } } adObject
    */
   var fillInCardData = function (cardModel, adObject) {
     var offerType = '';
@@ -102,7 +114,7 @@
     document.querySelector('.popup__close').addEventListener('click', function () {
       window.selectors.mapPins.removeChild(document.querySelector('.popup'));
       window.currentPinIndex = window.keksobooking.data.returnIndex(window.pinscoords);
-      window.keksobooking.data.removeActiveClass(window.currentPinIndex);
+      window.keksobooking.data.removeActiveClass();
     });
     document.addEventListener('keydown', onEscPress);
   };
@@ -113,7 +125,7 @@
   var onEscPress = function (keyEvt) {
     if (keyEvt.keyCode === ESC_KEYCODE) {
       window.selectors.mapPins.removeChild(document.querySelector('.popup'));
-      window.keksobooking.data.removeActiveClass(window.currentPinIndex);
+      window.keksobooking.data.removeActiveClass();
       document.removeEventListener('keydown', onEscPress);
     }
   };

@@ -63,9 +63,20 @@
     mainBlock.appendChild(errorBlock);
   };
 
+  /**
+   * @param {MouseEvent} evt
+   */
   var updateClickCoords = function (evt) {
     window.x = evt.target.offsetParent.offsetLeft + PIN_WIDTH / 2;
     window.y = evt.target.offsetParent.offsetTop + PIN_HEIGHT;
+  };
+
+  /**
+   * @param {KeyboardEvent} evt
+   */
+  var updateKeydownCoords = function (evt) {
+    window.x = evt.target.offsetLeft + PIN_WIDTH / 2;
+    window.y = evt.target.offsetTop + PIN_HEIGHT;
   };
 
   var closePopup = function () {
@@ -84,6 +95,7 @@
     getCoords: getCoords,
     generateErrorMessage: generateErrorMessage,
     updateClickCoords: updateClickCoords,
-    closePopup: closePopup
+    closePopup: closePopup,
+    updateKeydownCoords: updateKeydownCoords
   };
 })();

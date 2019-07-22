@@ -50,6 +50,13 @@
     return document.querySelectorAll('.map__pin:not(.map__pin--main)');
   };
 
+  /**
+   * @return {Element}
+   */
+  var getActivePin = function () {
+    return document.querySelector('.map__pin--active');
+  };
+
   window.selectors = {
     mapPins: getMapPins(),
     mainPin: getMainPin(),
@@ -57,6 +64,7 @@
     addressInput: getAddressInput(),
     form: getFormElement(),
     pinTemplate: getPinTemplate(),
-    getPins: getPins
+    getPins: getPins,
+    getActivePin: getActivePin
   };
 })();
