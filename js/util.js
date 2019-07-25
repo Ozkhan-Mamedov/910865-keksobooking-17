@@ -6,7 +6,8 @@
   var MIN_NUMBER_X = 0;
   var MAX_NUMBER_Y = 630;
   var MIN_NUMBER_Y = 130;
-  var MAX_NUMBER_X = window.selectors.mapPins.clientWidth;
+  var mapPins = document.querySelector('.map__pins');
+  var MAX_NUMBER_X = mapPins.clientWidth;
 
   /**
    * Функция копирования элементов из псевдомассива в массив
@@ -67,21 +68,21 @@
    * @param {MouseEvent} evt
    */
   var updateClickCoords = function (evt) {
-    window.x = evt.target.offsetParent.offsetLeft + PIN_WIDTH / 2;
-    window.y = evt.target.offsetParent.offsetTop + PIN_HEIGHT;
+    window.keksobooking.util.x = evt.target.offsetParent.offsetLeft + PIN_WIDTH / 2;
+    window.keksobooking.util.y = evt.target.offsetParent.offsetTop + PIN_HEIGHT;
   };
 
   /**
    * @param {KeyboardEvent} evt
    */
   var updateKeydownCoords = function (evt) {
-    window.x = evt.target.offsetLeft + PIN_WIDTH / 2;
-    window.y = evt.target.offsetTop + PIN_HEIGHT;
+    window.keksobooking.util.x = evt.target.offsetLeft + PIN_WIDTH / 2;
+    window.keksobooking.util.y = evt.target.offsetTop + PIN_HEIGHT;
   };
 
   var closePopup = function () {
-    if (window.selectors.mapPins.contains(document.querySelector('.popup'))) {
-      window.selectors.mapPins.removeChild(document.querySelector('.popup'));
+    if (mapPins.contains(document.querySelector('.popup'))) {
+      mapPins.removeChild(document.querySelector('.popup'));
     }
   };
 

@@ -6,8 +6,10 @@
   var MAIN_PIN_WIDTH = 65;
   var PIN_NUM = 5;
   var util = window.keksobooking.util;
-  var mainPin = window.selectors.mainPin;
-  window.isActivated = false;
+  var mainPin = document.querySelector('.map__pin--main');
+  var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
+  var addressInput = document.querySelector('#address');
+  var pins = [];
 
   /**
    * Создает объект, в котором для каждого пина создается "ключ" - его положение разметке, а значение - индекс
@@ -34,18 +36,18 @@
    *          }[] } data
    */
   var onLoad = function (data) {
-    window.pins = window.keksobooking.data.createDomElements(data, window.selectors.pinTemplate);
-    window.pinsIndex = generateCoordsToIndexObject(window.pins);
+    pins = window.keksobooking.data.createDomElements(data, pinTemplate);
+    window.keksobooking.pin.pinsIndex = generateCoordsToIndexObject(pins);
 
     mainPin.addEventListener('mouseup', function () {
       var pinCoordsStyle = mainPin.getAttribute('style');
       var pinCoords = util.getCoords(pinCoordsStyle);
 
-      window.selectors.addressInput.setAttribute('value', util.formatCoords(pinCoords));
+      addressInput.setAttribute('value', util.formatCoords(pinCoords));
     });
     mainPin.addEventListener('keydown', onMainPinPress);
     mainPin.addEventListener('mousedown', function (evt) {
-      window.startCoords = {
+      window.keksobooking.pin.startCoords = {
         x: evt.clientX,
         y: evt.clientY
       };
@@ -69,19 +71,19 @@
    */
   var onMouseMove = function (moveEvt) {
     var shift = {
-      x: window.startCoords.x - moveEvt.clientX,
-      y: window.startCoords.y - moveEvt.clientY
+      x: window.keksobooking.pin.startCoords.x - moveEvt.clientX,
+      y: window.keksobooking.pin.startCoords.y - moveEvt.clientY
     };
 
-    window.startCoords = {
+    window.keksobooking.pin.startCoords = {
       x: moveEvt.clientX,
       y: moveEvt.clientY
     };
 
-    if (window.isActivated === false) {
-      window.isActivated = true;
+    if (window.keksobooking.pagesetup.isActivated === false) {
+      window.keksobooking.pagesetup.isActivated = true;
       window.keksobooking.pagesetup.enablePage();
-      window.keksobooking.data.renderElements(window.pins.slice(0, PIN_NUM));
+      window.keksobooking.data.renderElements(pins.slice(0, PIN_NUM));
     }
 
     mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
@@ -131,10 +133,10 @@
    */
   var onMainPinPress = function (keyEvt) {
     if (keyEvt.keyCode === ENTER_KEYCODE) {
-      if (window.isActivated === false) {
-        window.isActivated = true;
+      if (window.keksobooking.pagesetup.isActivated === false) {
+        window.keksobooking.pagesetup.isActivated = true;
         window.keksobooking.pagesetup.enablePage();
-        window.keksobooking.data.renderElements(window.pins.slice(0, PIN_NUM));
+        window.keksobooking.data.renderElements(pins.slice(0, PIN_NUM));
       }
     }
   };
@@ -143,6 +145,7 @@
 
   window.keksobooking.pin = {
     serverData: serverData,
-    onError: onError
+    onError: onError,
+    pins: pins
   };
 })();

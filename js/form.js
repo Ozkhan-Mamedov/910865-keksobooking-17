@@ -89,6 +89,7 @@
     document.querySelector('main').appendChild(successBlock);
     document.addEventListener('keydown', onEscPress);
     document.addEventListener('click', onWindowClick);
+    window.isReseted = true;
   };
 
   window.keksobooking.pagesetup.disablePage();

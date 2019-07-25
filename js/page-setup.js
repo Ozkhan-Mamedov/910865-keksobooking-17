@@ -13,16 +13,22 @@
   var fieldsetsModified = window.keksobooking.util.copyElements(fieldsets);
   var guestNumberInput = document.querySelector('select[id=capacity]');
   var priceInput = document.querySelector('#price');
+  var map = document.querySelector('.map');
+  var form = document.querySelector('.ad-form');
+  var mapPins = document.querySelector('.map__pins');
+  var mainPin = document.querySelector('.map__pin--main');
+  var activePin = document.querySelector('.map__pin--active');
+  var addressInput = document.querySelector('#address');
   var options = [0, 1, 3];
 
   var disablePage = function () {
     window.keksobooking.util.closePopup();
     enableFieldProperties(guestNumberInput);
-    window.selectors.map.classList.add('map--faded');
-    window.selectors.form.reset();
-    window.selectors.form.classList.add('ad-form--disabled');
-    window.selectors.addressInput.setAttribute('value', window.keksobooking.util.formatCoords(INITIAL_MAIN_PIN_COORDS));
-    window.selectors.mainPin.style = 'left: 570px; top: 375px;';
+    map.classList.add('map--faded');
+    form.reset();
+    form.classList.add('ad-form--disabled');
+    addressInput.setAttribute('value', window.keksobooking.util.formatCoords(INITIAL_MAIN_PIN_COORDS));
+    mainPin.style = 'left: 570px; top: 375px;';
     window.keksobooking.data.cleanUpMap();
     setDisabledProperty(options);
     disableElements(fieldsetsModified);
@@ -31,32 +37,32 @@
     filterForm.reset();
     priceInput.placeholder = 1000;
 
-    if (window.isActivated === true) {
-      window.selectors.mapPins.removeEventListener('click', window.keksobooking.filter.onNewPinClick);
+    if (window.keksobooking.pagesetup.isActivated === true) {
+      mapPins.removeEventListener('click', window.keksobooking.filter.onNewPinClick);
     }
 
-    window.isActivated = false;
+    window.keksobooking.pagesetup.isActivated = false;
   };
 
   var enablePage = function () {
     if (window.keksobooking.filter.onNewPinClick) {
-      window.selectors.mapPins.removeEventListener('click', window.keksobooking.filter.onNewPinClick);
-      window.selectors.mapPins.removeEventListener('keydown', window.keksobooking.filter.onNewPinPress);
+      mapPins.removeEventListener('click', window.keksobooking.filter.onNewPinClick);
+      mapPins.removeEventListener('keydown', window.keksobooking.filter.onNewPinPress);
     }
 
-    window.selectors.map.classList.remove('map--faded');
-    window.selectors.form.classList.remove('ad-form--disabled');
+    map.classList.remove('map--faded');
+    form.classList.remove('ad-form--disabled');
 
     if (window.isReseted === true) {
-      window.pinscoords = window.initialpinscoords;
+      window.keksobooking.data.pinscoords = window.keksobooking.data.initialpinscoords;
     }
 
-    window.keksobooking.data.renderElements(window.pins.slice(0, PIN_NUM));
+    window.keksobooking.data.renderElements(window.keksobooking.pin.pins.slice(0, PIN_NUM));
     enableElements(fieldsetsModified);
     enableElements(filters);
     enableElements(checkboxfilters);
 
-    if (window.selectors.getActivePin()) {
+    if (activePin) {
       window.keksobooking.data.removeActiveClass();
     }
   };
