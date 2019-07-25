@@ -18,23 +18,25 @@
   var washerFilter = document.querySelector('#filter-washer');
   var elevatorFilter = document.querySelector('#filter-elevator');
   var conditionerFilter = document.querySelector('#filter-conditioner');
+  var mapPins = document.querySelector('.map__pins');
+  var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 
   /**
    * @return {Number}
    */
   var getFilteredListIndex = function () {
-    var pins = window.selectors.mapPins.querySelectorAll('.map__pin:not(.map__pin--main)');
+    var pins = mapPins.querySelectorAll('.map__pin:not(.map__pin--main)');
     var indexes = [];
 
     for (var i = 0; i < pins.length; i++) {
-      for (var key in window.pinsIndex) {
-        if (window.pinsIndex[key] === window.pinsIndex[pins[i].attributes.style.nodeValue]) {
-          indexes.push(window.pinsIndex[pins[i].attributes.style.nodeValue]);
+      for (var key in window.keksobooking.pin.pinsIndex) {
+        if (window.keksobooking.pin.pinsIndex[key] === window.keksobooking.pin.pinsIndex[pins[i].attributes.style.nodeValue]) {
+          indexes.push(window.keksobooking.pin.pinsIndex[pins[i].attributes.style.nodeValue]);
         }
       }
     }
 
-    return indexes[window.keksobooking.data.returnIndex(window.pinscoords)];
+    return indexes[window.keksobooking.data.returnIndex(window.keksobooking.data.pinscoords)];
   };
 
   /**
@@ -43,22 +45,22 @@
   var onNewPinPress = function (keyEvt) {
     if (keyEvt.keyCode === ENTER_KEYCODE) {
       if (keyEvt.target.clientHeight === PIN_HEIGHT) {
-        if (!window.selectors.mapPins.contains(document.querySelector('.map__card'))) {
+        if (!mapPins.contains(document.querySelector('.map__card'))) {
           window.keksobooking.util.updateKeydownCoords(keyEvt);
-          window.currentPinIndex = window.keksobooking.data.returnIndex(window.pinscoords);
-          window.keksobooking.data.setActiveClass(window.currentPinIndex);
+          window.keksobooking.data.currentPinIndex = window.keksobooking.data.returnIndex(window.keksobooking.data.pinscoords);
+          window.keksobooking.data.setActiveClass(window.keksobooking.data.currentPinIndex);
           var cardModel = window.keksobooking.card.generateCardModel();
 
           window.keksobooking.card.fillInCardData(cardModel, window.keksobooking.pin.serverData.response[getFilteredListIndex()]);
         } else {
           window.keksobooking.util.updateKeydownCoords(keyEvt);
           window.keksobooking.data.removeActiveClass();
-          window.currentPinIndex = window.keksobooking.data.returnIndex(window.pinscoords);
-          var newPinIndex = window.keksobooking.data.returnIndex(window.pinscoords);
+          window.keksobooking.data.currentPinIndex = window.keksobooking.data.returnIndex(window.keksobooking.data.pinscoords);
+          var newPinIndex = window.keksobooking.data.returnIndex(window.keksobooking.data.pinscoords);
           window.keksobooking.data.setActiveClass(newPinIndex);
           var newCardModel = window.keksobooking.card.generateCardModel();
 
-          window.selectors.mapPins.removeChild(document.querySelector('.popup'));
+          mapPins.removeChild(document.querySelector('.popup'));
           window.keksobooking.card.fillInCardData(newCardModel, window.keksobooking.pin.serverData.response[getFilteredListIndex()]);
         }
       }
@@ -70,7 +72,7 @@
    */
   var onNewPinClick = function (evt) {
     if (((evt.target.tagName === 'IMG') && (evt.target.height === PIN_IMG_HEIGHT)) || ((evt.target.tagName === 'BUTTON') && (evt.target.clientHeight === PIN_HEIGHT))) {
-      if (!window.selectors.mapPins.contains(document.querySelector('.map__card'))) {
+      if (!mapPins.contains(document.querySelector('.map__card'))) {
         if (evt.target.tagName === 'IMG') {
           window.keksobooking.util.updateClickCoords(evt);
         }
@@ -78,12 +80,12 @@
           window.keksobooking.util.updateKeydownCoords(evt);
         }
         window.keksobooking.card.fillInCardData(window.keksobooking.card.generateCardModel(), window.keksobooking.pin.serverData.response[getFilteredListIndex()]);
-        window.currentPinIndex = window.keksobooking.data.returnIndex(window.pinscoords);
-        window.keksobooking.data.setActiveClass(window.currentPinIndex);
+        window.keksobooking.data.currentPinIndex = window.keksobooking.data.returnIndex(window.keksobooking.data.pinscoords);
+        window.keksobooking.data.setActiveClass(window.keksobooking.data.currentPinIndex);
       } else {
         var newCardModel = window.keksobooking.card.generateCardModel();
 
-        window.currentPinIndex = window.keksobooking.data.returnIndex(window.pinscoords);
+        window.keksobooking.data.currentPinIndex = window.keksobooking.data.returnIndex(window.keksobooking.data.pinscoords);
         if (evt.target.tagName === 'IMG') {
           window.keksobooking.util.updateClickCoords(evt);
         }
@@ -92,10 +94,10 @@
         }
         window.keksobooking.data.removeActiveClass();
 
-        var newPinIndex = window.keksobooking.data.returnIndex(window.pinscoords);
+        var newPinIndex = window.keksobooking.data.returnIndex(window.keksobooking.data.pinscoords);
 
         window.keksobooking.data.setActiveClass(newPinIndex);
-        window.selectors.mapPins.removeChild(document.querySelector('.popup'));
+        mapPins.removeChild(document.querySelector('.popup'));
         window.keksobooking.card.fillInCardData(newCardModel, window.keksobooking.pin.serverData.response[getFilteredListIndex()]);
       }
     }
@@ -208,11 +210,11 @@
       .filter(getFeaturesFilterChange(washerFilter, 'washer'))
       .filter(getFeaturesFilterChange(elevatorFilter, 'elevator'))
       .filter(getFeaturesFilterChange(conditionerFilter, 'conditioner'));
-    window.keksobooking.data.renderElements(window.keksobooking.data.createDomElements(filteredpins.slice(0, PIN_NUM), window.selectors.pinTemplate));
-    window.selectors.mapPins.removeEventListener('click', window.keksobooking.data.onPinClick);
-    window.selectors.mapPins.removeEventListener('keydown', window.keksobooking.data.onPinPress);
-    window.selectors.mapPins.addEventListener('keydown', onNewPinPress);
-    window.selectors.mapPins.addEventListener('click', onNewPinClick);
+    window.keksobooking.data.renderElements(window.keksobooking.data.createDomElements(filteredpins.slice(0, PIN_NUM), pinTemplate));
+    mapPins.removeEventListener('click', window.keksobooking.data.onPinClick);
+    mapPins.removeEventListener('keydown', window.keksobooking.data.onPinPress);
+    mapPins.addEventListener('keydown', onNewPinPress);
+    mapPins.addEventListener('click', onNewPinClick);
   };
 
   filter.addEventListener('change', function () {

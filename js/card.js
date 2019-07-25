@@ -3,6 +3,7 @@
 (function () {
   var ESC_KEYCODE = 27;
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
+  var mapPins = document.querySelector('.map__pins');
 
   /**
    * @param { { offer: { photos: String[] } } } adObject
@@ -54,7 +55,7 @@
   var generateCardModel = function () {
     var cardModel = cardTemplate.cloneNode(true);
 
-    window.selectors.mapPins.appendChild(cardModel);
+    mapPins.appendChild(cardModel);
 
     return cardModel;
   };
@@ -112,8 +113,8 @@
     cardModel.querySelector('.popup__photos').src = renderImages(adObject);
     cardModel.querySelector('.popup__avatar').src = adObject.author.avatar;
     document.querySelector('.popup__close').addEventListener('click', function () {
-      window.selectors.mapPins.removeChild(document.querySelector('.popup'));
-      window.currentPinIndex = window.keksobooking.data.returnIndex(window.pinscoords);
+      mapPins.removeChild(document.querySelector('.popup'));
+      window.keksobooking.data.currentPinIndex = window.keksobooking.data.returnIndex(window.keksobooking.data.pinscoords);
       window.keksobooking.data.removeActiveClass();
     });
     document.addEventListener('keydown', onEscPress);
@@ -124,7 +125,7 @@
    */
   var onEscPress = function (keyEvt) {
     if (keyEvt.keyCode === ESC_KEYCODE) {
-      window.selectors.mapPins.removeChild(document.querySelector('.popup'));
+      mapPins.removeChild(document.querySelector('.popup'));
       window.keksobooking.data.removeActiveClass();
       document.removeEventListener('keydown', onEscPress);
     }
