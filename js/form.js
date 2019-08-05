@@ -1,8 +1,7 @@
 'use strict';
 
 (function () {
-  var ESC_KEYCODE = 27;
-  var accomodationPrice = {
+  var accommodationPrice = {
     'bungalo': 0,
     'flat': 1000,
     'house': 5000,
@@ -75,7 +74,7 @@
    * @param {KeyboardEvent} keyEvt
    */
   var onEscPress = function (keyEvt) {
-    if (keyEvt.keyCode === ESC_KEYCODE) {
+    if (keyEvt.keyCode === window.keksobooking.util.ESC_KEYCODE) {
       document.querySelector('main').removeChild(document.querySelector('.success'));
       document.removeEventListener('keydown', onEscPress);
       document.removeEventListener('click', onWindowClick);
@@ -96,19 +95,19 @@
   livingTypeInput.addEventListener('change', function () {
     switch (livingTypeInput.value) {
       case 'bungalo':
-        setPriceAttributes(accomodationPrice['bungalo']);
+        setPriceAttributes(accommodationPrice['bungalo']);
         break;
 
       case 'flat':
-        setPriceAttributes(accomodationPrice['flat']);
+        setPriceAttributes(accommodationPrice['flat']);
         break;
 
       case 'house':
-        setPriceAttributes(accomodationPrice['house']);
+        setPriceAttributes(accommodationPrice['house']);
         break;
 
       case 'palace':
-        setPriceAttributes(accomodationPrice['palace']);
+        setPriceAttributes(accommodationPrice['palace']);
         break;
     }
   });

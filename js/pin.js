@@ -1,7 +1,6 @@
 'use strict';
 
 (function () {
-  var ESC_KEYCODE = 27;
   var ENTER_KEYCODE = 13;
   var MAIN_PIN_WIDTH = 65;
   var PIN_NUM = 5;
@@ -113,7 +112,7 @@
    * @param {KeyboardEvent} keyEvt
    */
   var onEscPress = function (keyEvt) {
-    if (keyEvt.keyCode === ESC_KEYCODE) {
+    if (keyEvt.keyCode === window.keksobooking.util.ESC_KEYCODE) {
       document.querySelector('main').removeChild(document.querySelector('.error'));
       document.removeEventListener('keydown', onEscPress);
       document.removeEventListener('click', onWindowClick);

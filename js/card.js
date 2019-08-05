@@ -1,7 +1,6 @@
 'use strict';
 
 (function () {
-  var ESC_KEYCODE = 27;
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
   var mapPins = document.querySelector('.map__pins');
 
@@ -124,7 +123,7 @@
    * @param {KeyboardEvent} keyEvt
    */
   var onEscPress = function (keyEvt) {
-    if (keyEvt.keyCode === ESC_KEYCODE) {
+    if (keyEvt.keyCode === window.keksobooking.util.ESC_KEYCODE) {
       mapPins.removeChild(document.querySelector('.popup'));
       window.keksobooking.data.removeActiveClass();
       document.removeEventListener('keydown', onEscPress);

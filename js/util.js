@@ -8,6 +8,7 @@
   var MIN_NUMBER_Y = 130;
   var mapPins = document.querySelector('.map__pins');
   var MAX_NUMBER_X = mapPins.clientWidth;
+  var ESC_KEYCODE = 27;
 
   /**
    * Функция копирования элементов из псевдомассива в массив
@@ -97,6 +98,7 @@
     generateErrorMessage: generateErrorMessage,
     updateClickCoords: updateClickCoords,
     closePopup: closePopup,
-    updateKeydownCoords: updateKeydownCoords
+    updateKeydownCoords: updateKeydownCoords,
+    ESC_KEYCODE: ESC_KEYCODE
   };
 })();
